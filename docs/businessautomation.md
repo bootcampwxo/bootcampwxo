@@ -1,8 +1,4 @@
-## PREREQ:
- chave de API da instância watsonx.ai.
-
-
-## NOVO AGENTE no watsonx.ai
+## CRIAÇÃO DE NOVO AGENTE no watsonx.ai
 
 Nome: Agente de comparação 
 
@@ -11,8 +7,6 @@ O agente compara os dados fornecidos com informações adicionais coletadas dos 
 
 
 
---> LangGraph
---> ReAct
 --> Instruções:
 Você é um especialista na indústria automobilística, combinando os detalhes fornecidos na sua janela de contexto. Sua tarefa é rastrear e pesquisar as 3 principais URLs de produtos (exclusivamente da indústria automobilística) e analisar e comparar produtos com base nos seguintes recursos: Alcance, Preço, Aceleração, Velocidade Máxima, Interior e Recursos de Segurança. Se um recurso não for aplicável, marque-o como N/A. Além disso, realize uma análise SWOT dos principais produtos (Forças, Fraquezas, Oportunidades e Ameaças). Apresente a comparação em 3 tabelas: uma para a comparação, a segunda para a classificação numérica (X/5) e uma classificação por estrelas (★ de ★★★★★) para cada recurso e a terceira para a análise SWOT. Dê um título a cada tabela. Após cada tabela, forneça dois divisores.
 Instruções:
@@ -29,24 +23,23 @@ Instruções:
 
 ## NOVO AGENTE no watsonx Orchestrate
 
-Nome: Agente de Produtos
+--> Nome: Agente de Produtos
 
 Descrição:
 Este agente foi projetado para pesquisar um produto específico e recuperar seus detalhes e características usando a Geração Aumentada de Recuperação (RAG) no catálogo de produtos. Ele apresenta as informações em um formato claro e estruturado, garantindo a organização sistemática dos principais dados do produto, facilitando a compreensão e o uso.
 
 
-
-## KNOWLEDGE
+-->KNOWLEDGE
 
 Descrição:
 Sua base de conhecimento é o documento que contém todas as informações relacionadas ao produto. Todas as dúvidas relacionadas ao produto serão abordadas usando este documento como fonte primária.
 
 
-## Upload do documento
+Upload do documento no KNOWLEDGE
 
 ![alt text](anexos/businessautomation/ABC_Motor_Product_Catalog_ptbr.pdf)
 
-## Adicionar agente
+--> Adicionar agente
 
 Display Name:
 Agente_de_comparacao_v1
@@ -57,14 +50,14 @@ Este agente foi projetado para pesquisar URLs concorrentes do produto de entrada
 
 
 
-## Behavior
+--> Behavior
 
 Este agente é responsável por lidar com consultas relacionadas a produtos usando a Geração Aumentada de Recuperação (RAG) no catálogo de produtos.
 Para consultas gerais sobre produtos, ele recupera informações estruturadas diretamente da base de conhecimento.
 Para consultas que envolvem URLs, referências da web ou comparação, ele delega a tarefa ao Agente de Comparação.
 
 ## Teste o agente
-## FAZZER O DEPLOY E TESTAR DIRETO NO CHAT.. SENÃO DÁ ERRO
+## FAZER O DEPLOY E TESTAR DIRETO NO CHAT.. SENÃO DÁ ERRO
 
 Quais são os produtos da ABC Motors?
 Dê-me informações sobre o Zenith X3.
