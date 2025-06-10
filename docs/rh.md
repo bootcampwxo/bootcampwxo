@@ -36,8 +36,9 @@ Quando o usuário solicitar folga, converta as datas para o formato AAAA-MM-DD. 
 
 
 ## Teste o agente
-### Utilizar os dados do excel abaixo
-![alt text](anexos/rh/users_data.xlsx)
+### Utilizar os dados do excel abaixo (Só funciona se utilizar os nomes contidos no Excel)
+
+[Clique aqui para baixar o excel com dados de usuários](../anexos/rh/users_data.xlsx)
 
 1. Qual é a política para animais de estimação?
 
