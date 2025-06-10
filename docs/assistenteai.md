@@ -19,7 +19,7 @@ Contexto:
 - Forneça o máximo de detalhes possível.
 
 Dados de status da doca:
-
+```json
 {
   "dock_id": 1,
   "trucks": [
@@ -107,6 +107,7 @@ Contexto:
 - Forneça o máximo de detalhes possível.
 
 Dados de excedentes:
+```json
 {
   "truck_id": "T004",
   "SKU": "102209199",
