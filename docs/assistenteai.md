@@ -82,7 +82,7 @@ Dados de status da doca:
 }
 ```
 
-PERGUNTA DE TESTE
+PERGUNTA DE TESTE  
 Você pode me informar sobre o status das docas do armazém? (ele vai perguntar de quais docas.. responder "todas")
 
 
@@ -150,7 +150,7 @@ Dados de excedentes:
 }
 ```
 
--> PERGUNTA DE TESTE
+-> PERGUNTA DE TESTE  
 Como lidamos com o excedente do caminhão T001? 
     --> Qual é o SKU do produto que você gostaria de saber sobre o tratamento recomendado para o excedente no caminhão T001? (Responder: Todos os produtos)
     --> What é o tipo de alocação que você gostaria de usar para os excedentes do caminhão T001? (Responder: Eu não sei)
@@ -217,7 +217,7 @@ Este e-mail é para notificá-los de que há 9 unidades do item 765004599 em exc
 Gerenciamento de Armazém
 
 
--> PERGUNTA DE TESTE
+-> PERGUNTA DE TESTE  
 Gerar um e-mail de notificação para a equipe de marketing para o SKU: 8932464599 de 10 unidades"
 
 ## CRIAÇÃO DO QUARTO AGENTE
@@ -245,7 +245,7 @@ Justificativa:
 - Utilize o AgenteDeTrafego para encontrar informações de trânsito sobre um local.
 
 
-PERGUNTA DE TESTE
+PERGUNTA DE TESTE  
 Por favor, conte-me sobre o trânsito no centro de Sydney, Austrália."
 
 ## FAZER O DEPLOY DO AGENTE.. E TESTAR NO CHAT
