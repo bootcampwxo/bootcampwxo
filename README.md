@@ -9,3 +9,6 @@ https://github.ibm.com/skol/agentic-ai-client-bootcamp-instructors/tree/main/use
 [1. Intelligent Assistant](docs/assistenteai.md)<br>
 [2. Business Automation](docs/businessautomation.md)<br>
 [3. Ask HR](docs/rh.md)<br>
+
+PPT com os casos do LAB para usar no bootcamp
+[Clique aqui para baixar o PPT](anexos/AI_Agent_Casos.pptx)<br>
