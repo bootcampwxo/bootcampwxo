@@ -37,7 +37,7 @@ Sua base de conhecimento é o documento que contém todas as informações relac
 
 Upload do documento no KNOWLEDGE
 
-![alt text](anexos/businessautomation/ABC_Motor_Product_Catalog_ptbr.pdf)
+![alt text](../anexos/businessautomation/ABC_Motor_Product_Catalog_ptbr.pdf)
 
 --> Adicionar agente
 
