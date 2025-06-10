@@ -13,12 +13,13 @@ Esta base de conhecimento aborda os benefícios dos funcionários da empresa, in
 
 Upload do documento (utilizar o PDF em português abaixo)
 
-![alt text](anexos/rh/Employee-Benefits_ptbr.pdf)
+[Clique aqui para baixar o pdf dos benefícios em português](../anexos/rh/Employee-Benefits_ptbr.pdf)
 
 
-Importar Ferramenta (UTtilizar o yaml abaixo)
 
-![alt text](anexos/rh/hr.yaml)
+Importar Ferramenta (Utilizar o yaml abaixo)
+
+![Clique aqui para baixar o yaml em português](../anexos/rh/hr.yaml)
 
 
 --> Behavior
