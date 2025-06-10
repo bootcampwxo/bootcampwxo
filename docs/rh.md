@@ -19,7 +19,7 @@ Upload do documento (utilizar o PDF em português abaixo)
 
 Importar Ferramenta (Utilizar o yaml abaixo)
 
-![Clique aqui para baixar o yaml em português](../anexos/rh/hr.yaml)
+[Clique aqui para baixar o yaml em português](../anexos/rh/hr.yaml)
 
 
 --> Behavior
