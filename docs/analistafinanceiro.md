@@ -13,10 +13,10 @@ Este conhecimento aborda todos os detalhes sobre os relatórios de lucros das em
 
 Upload dos documentos (utilizar o PDF em português abaixo)
 
-[Clique aqui para baixar o pdf dos dados financeiros da Amazon em português](../anexos/financial/AMZN-Q4-2024-Earnings_ptBR.pdf)
-[Clique aqui para baixar o pdf dos dados financeiros da Meta em português](../anexos/financial/META-Q4-2024-Earnings_ptBR.pdf)
-[Clique aqui para baixar o pdf dos dados financeiros da Netflix em português](../anexos/financial/NFLX-Q4-2024-Earnings_ptBR.pdf)
-[Clique aqui para baixar o pdf dos dados financeiros da NVIDIA em português](../anexos/financial/NVDA-Q4-2024-Earnings_ptBR.pdf)
+[Clique aqui para baixar o pdf dos dados financeiros da Amazon em português](../anexos/financial/AMZN-Q4-2024-Earnings_ptBR.pdf)  
+[Clique aqui para baixar o pdf dos dados financeiros da Meta em português](../anexos/financial/META-Q4-2024-Earnings_ptBR.pdf)  
+[Clique aqui para baixar o pdf dos dados financeiros da Netflix em português](../anexos/financial/NFLX-Q4-2024-Earnings_ptBR.pdf)  
+[Clique aqui para baixar o pdf dos dados financeiros da NVIDIA em português](../anexos/financial/NVDA-Q4-2024-Earnings_ptBR.pdf)  
 
 --> Teste do agente  
 Você pode me falar sobre os negócios da Meta?  
