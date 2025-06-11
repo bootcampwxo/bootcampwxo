@@ -1,0 +1,238 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Financial AI API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+	"url": "https://ce-financial-research-analyst.1uu0zy3atytl.us-south.codeengine.appdomain.cloud/"
+    }
+  ],
+  "paths": {
+    "/search/duckduckgo": {
+      "post": {
+        "summary": "Obter resultados de pesquisa do DuckDuckGo",
+        "description": "Obtenha resultados de busca na web usando DuckDuckGo Search.\n\nArgs:\n    search_input: Um objeto contendo os parâmetros de busca\n        - query: A string da consulta de busca\n        - num_results: Número de resultados a retornar",
+        "operationId": "get_duckduckgo_search_results",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "title": "Busca",
+                    "description": "String de query de busca"
+                  },
+                  "num_results": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "title": "Número de Resultados",
+                    "description": "Número de resultados principais a serem recuperados"
+                  }
+                },
+                "required": [
+                  "query",
+                  "num_results"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Resposta bem sucedida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "title": {
+                                "type": "string"
+                              },
+                              "url": {
+                                "type": "string"
+                              },
+                              "description": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "total_count": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["success"]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Erro de validação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "detail": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "loc": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "msg": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search/brave": {
+      "post": {
+        "summary": "Obter resultado da pesquisa do Brave",
+        "description": "Obter resultado da pesquisa do Brave.\n\nArgs:\n    search_input: Um objeto contendo os parâmetros de busca\n        - query: A string da consulta de busca\n        - num_results: Número de resultados a retornar",
+        "operationId": "get_brave_search_results_search_brave_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "title": "Query",
+                    "description": "String da query de busca"
+                  },
+                  "num_results": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "title": "Número de Resultados",
+                    "description": "Número de resultados principais a serem recuperados"
+                  }
+                },
+                "required": [
+                  "query",
+                  "num_results"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Resposta bem sucedida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "results": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "title": {
+                                "type": "string"
+                              },
+                              "url": {
+                                "type": "string"
+                              },
+                              "description": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "total_count": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["success"]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Erro de validação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "detail": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "loc": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "msg": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
