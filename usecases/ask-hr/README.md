@@ -50,11 +50,11 @@ O agente RAG recupera informações relevantes de documentos para responder às 
 
 ## 🎥 Demonstração
 
-https://github.ibm.com/skol/agentic-ai-client-bootcamp/assets/449286/49242ff6-57e3-4de8-b0d1-57c97212d590
+[Video askRH]() 
 
 > [!IMPORTANTE]  
 > Este laboratório usa um simulador para um sistema de Gestão de Capital Humano. No entanto, isso pode ser facilmente substituído por qualquer sistema real em produção, como Workday ou outros.
 
 ## 📄 Laboratório prático passo a passo
 
-Por favor, veja as instruções passo a passo [aqui](/usecases/ask-hr/assets/hands-on-lab-askHR.md) sobre como você pode implementar este caso de uso.
+Por favor, veja as instruções passo a passo [aqui](ashHR_demo_new_version.mp4) sobre como você pode implementar este caso de uso.
