@@ -1,5 +1,5 @@
 # 🤖 watsonx Agentic AI Bootcamp
-📍 São Paulo, Brazil - 26/06/2025
+📍 São Paulo, Brazil - 23/06/2025
 
 
 
