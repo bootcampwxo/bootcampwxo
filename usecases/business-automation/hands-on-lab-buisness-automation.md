@@ -155,7 +155,7 @@ Descrição:
    ```
    ![Knowledge](assets/product_knowledge.png)
 
-5. Role para baixo até a seção Conhecimento e, na seção Documento, clique no botão Carregar arquivo e carregue [o catálogo de produtos](anexos/businessautomation/ABC_Motor_Product_Catalog.pdf).
+5. Role para baixo até a seção Conhecimento e, na seção Documento, clique no botão Carregar arquivo e carregue [o catálogo de produtos](../../anexos/businessautomation/ABC_Motor_Product_Catalog_ptbr.pdf).
 ![Upload file](assets/upload_file.png)
 
 6. Role para baixo até a seção Conjunto de ferramentas e, na seção Agentes, clique no botão Adicionar agente.
