@@ -1,4 +1,4 @@
-# 🤖 watsonx Agentic AI Bootcamp
+# 🤖 watsonx Agentic AI Bootcamp - São Paulo - 23/06/2005
 
 ![alt text](/agentic-bootcamp.png)
 
