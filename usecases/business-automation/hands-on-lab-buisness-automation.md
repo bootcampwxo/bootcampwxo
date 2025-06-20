@@ -1,26 +1,26 @@
 # 👨🏻‍💻 Caso de uso: Automação de negócios
 
 ## Índice
-- [Arquitetura](#-architecture)
-- [Descrição do caso de uso](#use-case-description)
+- [Arquitetura](#-arquitetura)
+- [Descrição do caso de uso](#Descrição-do-caso-de-uso)
 - [Pré-requisitos](#pre-requisites)
 - [Laboratório de Agentes - watsonx.ai](#agent-lab---watsonxai)
-  - [Agente de comparação](#comparison-agent)
+  - [Agente de comparação](#Agente-de-Comparação)
     - [Setup](#setup)
-    - [Configuração](#configuration)
+    - [Configuração](#Configuração)
     - [Tools](#tools)
-    - [Salvando e implantando](#saving-and-deploying)
-- [Integrando o agente do watsonx.ai como um agente externo no watsonx Orchestrate](#integrating-watsonxais-agent-as-an-external-agent-in-watsonx-orchestrate)
+    - [Salvando e implantando](#Salvando-e-Implantando)
+- [Integrando o agente do watsonx.ai como um agente externo no watsonx Orchestrate](#Integrando-o-agente-do-watsonx.ai-como-um-Agente-Externo-no-watsonx-Orchestrate)
 - [Agente orquestrate](#orchestrate-agent)
-  - [Product Agent](#product-agent)
-- [Experimente agentes em ação](#experience-agents-in-action)
+  - [Agente de Produto](#Agente-de-Produto)
+- [Experimente agentes em ação](#Experimente-agentes-em-ação)
 
 
 ## 🏛 Arquitetura  
 
 <img width="900" alt="image" src="assets/Business_Automation_Architecture.png">
 
-## Use Case Description
+## Descrição do caso de uso
 
 O departamento de vendas da ABC Motor Corp, uma grande empresa automotiva, ao preparar propostas de vendas, dedicava muito tempo para entender as características dos produtos concorrentes e compará-los com os seus próprios produtos. A ABC Motor Corp precisa de um sistema automatizado de análise competitiva para ajudar suas equipes de vendas a identificar e posicionar seus produtos rapidamente em relação aos concorrentes. Tradicionalmente, a coleta de insights sobre a concorrência exigia extensa pesquisa manual, o que a tornava ineficiente e propensa a informações desatualizadas. Portanto, o objetivo deste caso de uso é criar um sistema habilitado para IA que suporte a análise competitiva e a pesquisa de mercado do cliente.
 
@@ -81,8 +81,8 @@ Instruções:
 2. Selecione **Pesquisa Google** como ferramenta para coletar dados.
 ![Tool](assets/tool_link_search_agent.png)  
 
-#### Saving and Deploying
-Once the agent is created.
+#### Salvando e Implantando
+Após a criação do agente.
 
 1. Clique no botão **Salvar como** para salvar seu agente
 2. Clique no botão **Implantar** para implantar o agente.
@@ -129,7 +129,7 @@ Então vamos ao Orchestrate e criar outro agente e importar este agente para ele
 
 No Orchestrate, criaremos nosso agente principal, conforme descrito abaixo:
 
-### Product Agent
+### Agente de Produto
 
 1. Acesse a página inicial do Orchestrate, clique no menu de hambúrguer (☰), selecione Build, e depois Agent Builder.
 ![Agent Builder](assets/agent_build_wxo.png)
