@@ -149,7 +149,7 @@ Este agente foi projetado para pesquisar um produto específico e recuperar seus
 
 4. Após a criação do agente, navegue até a página Configuração do agente.
 
-   **Descrição:**
+Descrição:
    ```
   Sua base de conhecimento é o documento que contém todas as informações relacionadas ao produto. Todas as dúvidas relacionadas ao produto serão abordadas usando este documento como fonte primária.
    ```
