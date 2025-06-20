@@ -1,5 +1,7 @@
 # 🤖 watsonx Agentic AI Bootcamp
-# <img src="assets/sao-paulo-icon.png" width="24" alt="São Paulo" /> 
+📍 São Paulo, Brazil - 26/06/2025
+
+
 
 ![alt text](/agentic-bootcamp.png)
 
