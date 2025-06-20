@@ -25,11 +25,10 @@ O objetivo é simples: te deixar à vontade com o Watson Orchestrate, entendendo
 Então, aproveite o conteúdo, explore bastante e, sempre que possível, experimente por conta própria. Bora começar?
 
 
-[1. Intelligent Assistant](usecases/intelligent-assistant/README.md)<br>
-[1. BA](usecases/business-automation/README.md)<br>
-[1. askrh](usecases/ask-hr/README.md)<br>
-
-
+[1. Assistente Inteligente](usecases/intelligent-assistant/README.md)<br>
+[2. Automação de Negócio](usecases/business-automation/README.md)<br>
+[3. AskRH](usecases/ask-hr/README.md)<br>
+[4. Agente Financeiro](usecases/banking-financial-research-analyst/README.md)<br>
 
 
 ## Material para tornar os labs do Bootcamp de WXO em Português
