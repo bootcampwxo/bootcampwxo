@@ -1,4 +1,4 @@
-openapi: 3.0.0
+  openapi: 3.0.0
 info:
   title: HR Automation
   description: API for retrieving employee details and updating profile information

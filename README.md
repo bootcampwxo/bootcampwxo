@@ -1,3 +1,7 @@
+# 🤖 watsonx Agentic AI Bootcamp
+
+![alt text](/agentic-bootcamp.png)
+
 ## Material para tornar os labs do Bootcamp de WXO em Português
 
 Os labs completos para utilizar continuam no git original do Bootcamp. O material disponibilizado aqui é um complemento para que os agentes interajam em Português.
