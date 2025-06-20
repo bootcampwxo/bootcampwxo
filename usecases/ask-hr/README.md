@@ -49,7 +49,9 @@ O agente RAG recupera informações relevantes de documentos para responder às 
 - **Sistema de Gestão de Capital Humano (HCM)**: O aplicativo de RH se comunica com o sistema HCM subjacente para buscar ou atualizar dados dos funcionários, garantindo sincronização e precisão em tempo real.
 
 ## 🎥 Demonstração
-[aqui](ashHR_demo_new_version.mp4) 
+[▶️ Assistir à demonstração do Ask HR](https://raw.githubusercontent.com/bootcampwxo/bootcampwxo/main/docs/ashHR_demo_new_version.mp4)
+
+
 
 > [!IMPORTANTE]  
 > Este laboratório usa um simulador para um sistema de Gestão de Capital Humano. No entanto, isso pode ser facilmente substituído por qualquer sistema real em produção, como Workday ou outros.
