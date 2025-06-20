@@ -54,7 +54,7 @@ Para resumir, você aprenderá neste bootcamp como utilizar as capacidades do wa
 
 Você pode encontrar as instruções detalhadas aqui:
 
-[Guia prático passo a passo](https://github.ibm.com/skol/agentic-ai-client-bootcamp/blob/staging/usecases/banking-financial-research-analyst/hands-on-lab-banking.md)
+[Guia prático passo a passo](hands-on-lab-banking.md)
 
 ## 🎥 Vídeo de Demonstração
 
