@@ -31,7 +31,7 @@ Ao automatizar essas tarefas, a empresa pretende acelerar os processos de vendas
 
 ## 🏛 Arquitetura
 
-Para agilizar o processo de análise competitiva, projetamos um Sistema de Automação Multi-Agente de IA que extrai e analisa autonomamente os dados dos produtos a partir do [Catálogo de Produtos da ABC Motors Corp](anexos/businessautomation/ABC_Motor_Product_Catalog.pdf). Este sistema adota uma abordagem colaborativa de múltiplos agentes, garantindo eficiência, precisão e insights em tempo real para as equipes de vendas e estratégia. A arquitetura consiste em agentes de IA especializados trabalhando juntos para executar funções principais:
+Para agilizar o processo de análise competitiva, projetamos um Sistema de Automação Multi-Agente de IA que extrai e analisa autonomamente os dados dos produtos a partir do [Catálogo de Produtos da ABC Motors Corp](../../../anexos/businessautomation/ABC_Motor_Product_Catalog.pdf). Este sistema adota uma abordagem colaborativa de múltiplos agentes, garantindo eficiência, precisão e insights em tempo real para as equipes de vendas e estratégia. A arquitetura consiste em agentes de IA especializados trabalhando juntos para executar funções principais:
 
   * Extração de produtos do catálogo de produtos.
   * Extração das características dos produtos a partir do catálogo.
