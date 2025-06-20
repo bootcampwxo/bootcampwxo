@@ -3,8 +3,7 @@
 ![alt text](/agentic-bootcamp.png)
 
 
-In this bootcamp, you will build and deploy an Agentic AI application prototype for an enterprise use case.
-Neste bootcamp, você criará e implantará agentes de Inteligência Artificial (Agentic AI) utilizando casos de uso de negócio.
+Neste bootcamp, você criará e implantará agentes de Inteligência Artificial (Agentic AI) utilizando casos de uso de negócio.  
 
 🚀 Você aprenderá os conceitos por trás dos fluxos de trabalho do Agentic AI.  
 
