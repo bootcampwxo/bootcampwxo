@@ -24,6 +24,14 @@ O objetivo é simples: te deixar à vontade com o Watson Orchestrate, entendendo
 
 Então, aproveite o conteúdo, explore bastante e, sempre que possível, experimente por conta própria. Bora começar?
 
+
+[1. Intelligent Assistant](usecases/intelligent-assistant/README.md)<br>
+[1. BA](usecases/business-automation/README.md)<br>
+[1. askrh](usecases/ask-hr/README.md)<br>
+
+
+
+
 ## Material para tornar os labs do Bootcamp de WXO em Português
 
 Os labs completos para utilizar continuam no git original do Bootcamp. O material disponibilizado aqui é um complemento para que os agentes interajam em Português.
