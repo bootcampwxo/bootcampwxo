@@ -1,125 +1,127 @@
 
-# 🧑‍💼 AskHR: Automate HR tasks with Agentic AI
+# 🧑‍💼 AskHR: Automatize tarefas de RH com a IA da Agentic
 
-## Table of Contents
+## Índice
 
-- [Use case description](#use-case-description)
-- [Architecture](#architecture)
-- [Pre-requisites](#pre-requisites)
-- [Step by step instructions to build agents](#step-by-step-instructions-to-build-agents)
-  - [Deploying HR agent](#deploying-hr-agent)
+- [Descrição do caso de uso](#use-case-description)
+- [Arquitetura](#Arquitetura)
+- [Pre-requisitos](#pre-requisitos)
+- [Instruções passo a passo para criar agentes](#Instruções-passo-a-passo-para-criar-agentes)
+  - [Implantando agente de RH](#deploying-hr-agent)
 
     
-## Use Case Description
+## Descrição do caso de uso
+Este caso de uso visa desenvolver e implementar um agente AskHR utilizando o IBM Watsonx Orchestrate, conforme ilustrado no diagrama de arquitetura fornecido. Este agente capacitará os funcionários a interagir com os sistemas de RH e acessar informações de forma eficiente por meio de IA conversacional.
 
-This use case targets developing and deploying an AskHR agent leveraging IBM watsonx Orchestrate, as depicted in the provided architecture diagram. This agent will empower employees to interact with HR systems and access information efficiently through conversational AI. 
+Neste laboratório, construiremos um agente de RH no Watsonx Orchestrate, utilizando ferramentas e conhecimento externo para se conectar a um Sistema de Gestão de Capital Humano simulado. Este agente recupera informações relevantes de documentos para responder às consultas dos usuários e permite que eles visualizem e gerenciem seus perfis.
 
-In this lab we will build an HR agent in watsonx Orchestrate, leveraging tools and external knowledge to connect to a simulated Human Capital Management System. This agent retrieves relevant information from documents to answer user queries and  allows users to view and manage their profiles.
-
-## Architecture
+## Arquitetura
 
 <img width="1000" alt="image" src="arch_diagm.png">
 
 
 
 
-## Pre-requisites
+## Pre-requisitos
 
-- Check with your instructor to make sure **all systems** are up and running before you continue.
-- Validate that you have access to the right techzone environment for this lab.
-- Validate that you have access to a credentials file that you instructor will share with you before starting the labs.
-- If you're an instructor running this lab, check the **Instructor's guides** to set up all environments and systems.
-
-
+- Verifique com seu instrutor se **todos os sistemas** estão funcionando antes de continuar.
+- Confirme se você tem acesso ao ambiente techzone correto para este laboratório.
+- Confirme se você tem acesso a um arquivo de credenciais que seu instrutor compartilhará com você antes de iniciar os laboratórios.
+- Se você for um instrutor que está ministrando este laboratório, consulte os **Guias do Instrutor** para configurar todos os ambientes e sistemas.
 
 
-## Step by step instructions to build the HR Agent:
 
-1. When you launch watsonx Orchestrate, you'll be directed to this page. Click on the hamburger menu in the top left corner:
+
+## Instruções passo a passo para criar agentes:
+
+1. Ao iniciar o watsonx Orchestrate, você será direcionado para esta página. Clique no menu de hambúrguer no canto superior esquerdo:
 
 <img width="1000" alt="image" src="hands-on-lab-assets/step1.png">
 
-2. Click on the down arrow next to **Build**.  Then click on **Agent Builder**:
+2. Clique na seta para baixo ao lado de **Build**.  Em seguida, clique em **Agent Builder**:
 
 <img width="1000" alt="image" src="hands-on-lab-assets/step2.png">
 
-3. Click on **Create agent +**:
+3. Clique em **Create agent +**:
 
 <img width="1000" alt="image" src="hands-on-lab-assets/step3.png">
 
-4. Select "Create from scratch", give your agent a name, e.g. "HR Agent", and fill in the description as shown below: 
+4. Selecione "Create from scratch":
 
+Nome: Agente de RH
+
+Descrição:
 ```
-You are an agent who handles employee HR queries.  You provide short and crisp responses, keeping the output to 200 words or less.  You can help users check their profile data, retrieve latest time off balance, update title or address, and request time off. You can also answer general questions about company benefits.
+Você é um agente que lida com as dúvidas dos funcionários sobre RH. Você fornece respostas curtas e concisas, com no máximo 200 palavras. Você pode ajudar os usuários a verificar os dados do perfil, recuperar o saldo de folgas mais recente, atualizar cargo ou endereço e solicitar folgas. Você também pode responder a perguntas gerais sobre os benefícios da empresa.
 ```  
-Click on **Create**:
+Clique em **Create**:
 
 <img width="1000" alt="image" src="hands-on-lab-assets/hr_step4.png">
 
-5. Scroll down the screen to the **Knowledge** section. Copy the following description into the **Knowledge Description** section:
+5. Role a tela para baixo até a seção **Knowledge**. Copie a seguinte descrição na seção **Knowledge Description**:
 
 ```
-This knowledge base addresses the company's employee benefits, including parental leaves, pet policy, flexible work arrangements, and student loan repayment.
+Esta base de conhecimento aborda os benefícios dos funcionários da empresa, incluindo licenças-maternidade, política de animais de estimação, acordos de trabalho flexíveis e pagamento de empréstimos estudantis.
 ```
 
-Click on **Upload files**:
+Clique em  **Upload files**:
 
 <img width="1000" alt="image" src="hands-on-lab-assets/hr_step5.png">
 
-6. Drag and drop the [Employee Benefits.pdf](/usecases/ask-hr/assets/Employee-Benefits.pdf) and click on **Upload**:
+6. Drag and drop the [Benefícios para funcionários](../../../anexos/rh/Employee-Benefits_ptbr.pdf) e clique em **Upload**:
 
 <img width="1000" alt="image" src="hands-on-lab-assets/hr_step6.png">  
 
-7. Wait until the file has been uploaded successfully and double check that it is now shown in the Knowledge section: 
+7. Aguarde até que o arquivo seja carregado com sucesso e verifique novamente se ele agora é exibido na seção Knowledge:
 
 <img width="1000" alt="image" src="hands-on-lab-assets/hr_step7.png">  
 
-8. Scroll down to the **Toolset** section. Click on **Add tool +**:
+8. Role para baixo até a seção **Toolset**. Clique em **Add tool +**:
 
 <img width="1000" alt="image" src="hands-on-lab-assets/hr_step8.png">
 
-9. Select **Import**:
+9. Selecione **Import**:
 
 <img width="1000" alt="image" src="hands-on-lab-assets/step13.png">
 
-10. Drag and drop or click to upload the **hr.yaml** file (provided to you by the instructor), then click on **Next**:
+10. Arraste e solte ou clique para carregar o arquivo **hr.yaml** (fornecido a você pelo instrutor), então clique em **Next**:
 
 <img width="1000" alt="image" src="hands-on-lab-assets/hr_step10.png">    
 
-11. Select all the operations and click on **Done**:
+11. Selecione todas as operações e clique em **Done**:
 
 <img width="1000" alt="image" src="hands-on-lab-assets/hr_step11.png">
 
-12. Scroll down to the **Behavior** section. Insert the instructions below into the **Instructions** field:
+12. Role para baixo até a seção **Behavior**. Insira as instruções abaixo no campo **Instructions**:
 
 ```
-Use your knowledge base to answer general questions about employee benefits. 
+Use sua base de conhecimento para responder a perguntas gerais sobre benefícios para funcionários.
 
-Use the tools to get or update user specific information.
+Use as ferramentas para obter ou atualizar informações específicas do usuário.
 
-When user asks to show profile data or check time off balance or update title/address or request time off for the very first time,  first ask the user for their name,  then invoke the tool and then use the same name in the whole session without asking for the name again.
+Quando o usuário solicitar a exibição de dados de perfil, a verificação do saldo de folgas, a atualização do cargo/endereço ou a solicitação de folga pela primeira vez, primeiro pergunte o nome do usuário, depois invoque a ferramenta e use o mesmo nome em toda a sessão, sem solicitá-lo novamente.
 
-When the user requests time off, convert the dates to YYYY-MM-DD format, e.g. 5/22/2025 should be converted to 2025-05-22 before passing the date to the post_request_time_off tool.
+Quando o usuário solicitar folga, converta as datas para o formato AAAA-MM-DD. Por exemplo, 22/05/2025 deve ser convertido para 22/05/2025 antes de passar a data para a ferramenta post_request_time_off.
  ```
 
  <img width="1000" alt="image" src="hands-on-lab-assets/hr_step12.png">
 
-13. Test your agent in the preview chat on the right side by asking the following questions and validating the responses.  They should look similar to what is shown in the screenshots below:
+13. Teste seu agente no chat de pré-visualização à direita, fazendo as seguintes perguntas e validando as respostas. Elas devem ser semelhantes às mostradas nas capturas de tela abaixo:
 
 ```
-1. What is the pet policy? 
+1. Qual é a política para animais de estimação?
 
-2. Show me my profile data.
+2. Mostrar os dados do meu perfil.
 
-3. I'd like to update my title. 
+3. Gostaria de atualizar meu título.
 
-4. Update my address
+4. Atualizar meu endereço.
 
-5. What is my time off balance?
+5. Qual é o meu saldo de folgas?
 
-6. Request time off
+6. Solicitar folgas.
 
-7. Show my profile data.
+7. Mostrar os dados do meu perfil.
 
 ```
 
@@ -131,14 +133,14 @@ When the user requests time off, convert the dates to YYYY-MM-DD format, e.g. 5/
 
 <img width="1000" alt="image" src="hands-on-lab-assets/hr_step13_4.png">
 
-14. Once you have validated the answers, click on **Deploy** in the top right corner to deploy your agent:
+14. Depois de validar as respostas, clique em **Deploy** no canto superior direito para implantar seu agente:
 
 <img width="1000" alt="image" src="hands-on-lab-assets/hr_step14.png">
 
-15. Click on the hamburger menu in the top left corner and then click on **Chat**:
+15. Clique no menu de hambúrguer no canto superior esquerdo e depois clique em **Chat**:
 
 <img width="1000" alt="image" src="hands-on-lab-assets/hr_step15.png">
 
-16. Make sure **HR Agent** is selected. You can now test your agent:
+16. Certificar-se que o **HR Agent** está selecionado. Agora você pode testar seu agente:
 
 <img width="1000" alt="image" src="hands-on-lab-assets/hr_step16.png">
