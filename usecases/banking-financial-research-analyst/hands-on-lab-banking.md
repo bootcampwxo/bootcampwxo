@@ -1,552 +1,548 @@
-# 👨🏻‍💻 Use case: Financial Analyst Agent  
+# 👨🏻‍💻 Caso de uso: Agente Analista Financeiro
 
-## Table of Contents
-- [Use Case Description](#use-case-description)
-- [Architecture](#architecture)
-- [Pre-requisites](#pre-requisites)
+## Índice
+- [Descrição do caso de uso](#Descrição-do-caso-de-uso)
+- [Arquitetura](#Arquitetura)
+- [Pre-requisitos](#pre-requisitos)
 - [watsonx Orchestrate](#watsonx-orchestrate)
-  - [Accessing watsonx Orchestrate](#accessing-watsonx-orchestrate)
-- [Financial Analyst Agent Creation](#financial-analyst-agent-creation)
-  - [Agent Configuration with Knowledge Base](#agent-configuration-with-knowledge-base)
-- [Financial API Agent Creation and Configuration](#financial-api-agent-creation-and-configuration)
-- [Web Search Agent Creation and Configuration](#web-search-agent-creation-and-configuration)
-- [Pulling it together - Complete Agent Collaboration](#pulling-it-together)
-- [Experience Agents in Action using watsonx Orchestrate Chat UI](#experience-agents-in-action-using-watsonx-orchestrate-chat-ui)
-- [Conclusion](#conclusion)
+  - [Acessando o watsonx Orchestrate](#Acessando-o-watsonx-Orchestrate)
+- [Criação de Agente Analista Financeiro](#Criação-de-Agente-Analista-Financeiro)
+  - [Configuração do agente com base de conhecimento](#Configuração-do-agente-com-base-de-conhecimento)
+- [Criação e configuração do agente de API financeira](#Criação-e-configuração-do-agente-de-API-financeira)
+- [Criação e configuração do agente de pesquisa na Web](#Criação-e-configuração-do-agente-de-pesquisa-na-Web)
+- [Juntando tudo - Colaboração completa do agente](#Juntando-tudo---Colaboração-completa-do-agente)
+- [Experimente os agentes em ação usando a interface de bate-papo do Watsonx Orchestrate](#Experimente-os-agentes-em-ação-usando-a-interface-de-bate---papo-do-Watsonx-Orchestrate)
+- [Conclusão](#Conclusão)
 
-## Use Case Description
+## Descrição do caso de uso
 
-Blue Aurum Financial plans to implement an AI-powered Financial Research Agent to support their team of financial research analysts in accelerating their research and producing high value investment opportunities. The goal is to create an AI-powered agentic solutions that supports financial research analysts in executing the following tasks:
+A Blue Aurum Financial planeja implementar um Agente de Pesquisa Financeira com tecnologia de IA para auxiliar sua equipe de analistas de pesquisa financeira a acelerar suas pesquisas e gerar oportunidades de investimento de alto valor. O objetivo é criar soluções de agente com tecnologia de IA que apoiem analistas de pesquisa financeira na execução das seguintes tarefas:
 
-* Parse financial reports and extract key information.
-* Provide comparative analysis between different entities based on their financial reports.
-* Search public information for details about an entity as well as recent news and analysts reports.
-* Execute internal tools for retrieving financial metrics via APIs.
-* Generate a report of the findings and analysis.
+* Analisar relatórios financeiros e extrair informações importantes.
+* Fornecer análises comparativas entre diferentes entidades com base em seus relatórios financeiros.
+* Pesquisar informações públicas para obter detalhes sobre uma entidade, bem como notícias recentes e relatórios de analistas.
+* Executar ferramentas internas para recuperar métricas financeiras via APIs.
+* Gerar um relatório com as descobertas e análises.
 
-By automating these tasks, the company aims to accelerate research process to identify new opportunities for investment.
+Ao automatizar essas tarefas, a empresa visa acelerar o processo de pesquisa para identificar novas oportunidades de investimento.
 
-## 🏛 Architecture  <a id="architecture"></a>
+## 🏛 Arquitetura  <a id="architecture"></a>
 
 <img width="900" alt="image" src="images/banking-fra-architecture.png">
 
-## Pre-requisites
-To run the steps in this hands-on lab portion of the bootcamp, you need access to **watsonx Orchestrate** and **watsonx.ai** which are provided for you as part of the preparation for this bootcamp.
-
-- Please go the through the [environment-setup](https://github.ibm.com/skol/agentic-ai-client-bootcamp/tree/staging/environment-setup) guide for steps on API key creation, and project setup.
-
-- Check with your instructor to make sure **all systems** are up and running before you continue.
+## Pre-requisitos
+Para executar as etapas desta parte do laboratório prático do bootcamp, você precisa ter acesso ao **watsonx Orchestrate** e ao **watsonx.ai**, que são fornecidos a você como parte da preparação para este bootcamp.
 
 
 ## watsonx Orchestrate
-As detailed in the [Solution Architecture](images/banking-fra-architecture.png), we will build and deploy the majority of the agents for the solution in watsonx Orchestrate. AI Agents are autonomous entities that can run tasks, decide and interact with their environment. In IBM watsonx Orchestrate, agents are a key component enabling the creation of complex, dynamic systems that can adapt and respond to changing conditions. 
+Conforme detalhado no [Solution Architecture](images/banking-fra-architecture.png), construiremos e implementaremos a maioria dos agentes da solução no Watsonx Orchestrate. Agentes de IA são entidades autônomas que podem executar tarefas, decidir e interagir com seu ambiente. No IBM Watsonx Orchestrate, os agentes são um componente essencial que permite a criação de sistemas complexos e dinâmicos que podem se adaptar e responder a mudanças nas condições.
 
-### Accessing watsonx Orchestrate
-To access watsonx Orchestrate, follow these steps:
+### Acessando o watsonx Orchestrate
+Para acessar o Watsonx Orchestrate, siga estas etapas:
 
-1- If not already logged into your IBM Cloud account, navigate your preferred browser to https://cloud.ibm.com and log in with your credentials (which you used for your TechZone reservation).
+1- Se você ainda não estiver conectado à sua conta IBM Cloud, navegue até https://cloud.ibm.com no seu navegador preferido e faça login com suas credenciais (que você usou para sua reserva no TechZone).
 
-2- On your IBM Cloud landing page, click the top left navigation menu (hamburger menu) and select **Resource list** (annotated with red rectangle).
-*Note: If you are a member of multiple IBM Cloud accounts, make sure you are working in the correct account (annotated with red oval) which has the required services available as explained in the [environment-setup](https://github.ibm.com/skol/agentic-ai-client-bootcamp/tree/staging/environment-setup) guide.*
+2- Na página inicial do IBM Cloud, clique no menu de navegação superior esquerdo (menu de hambúrguer) e selecione **Resource list** (anotado com retângulo vermelho).
+*Observação: se você for membro de várias contas do IBM Cloud, certifique-se de estar trabalhando na conta correta (marcada com um oval vermelho) que tenha os serviços necessários disponíveis, conforme explicado no environment-setup.
 ![IBM Cloud Resource List](images/ibm_cloud_resources.png) 
 
-3- On the Resource List page, expand the **AI / Machine Learning** section (annotated with red arrow), and click the **Watsonx Orchestrate** service (annotated with red rectangle) service name.
+3- Na página Lista de Recursos, expanda a seção **AI / Machine Learning** (anotado com seta vermelha), e clique em **Watsonx Orchestrate** (anotado com retângulo vermelho).
 ![IBM Cloud wxo](images/ibm_cloud_wxo.png) 
 
-4- Click **Launch watsonx Orchestrate** (annotated with red arrow) to launch the service.
+4- Clique em **Launch watsonx Orchestrate** (anotado com seta vermelha) para iniciar o serviço.
 ![wxo launch](images/wxo-launch.png) 
 
-5- Once watsonx Orchestrate service is launched, you would be at its landing page as illustrated in the figure below. You will see an intuitive conversational interface with a chat field (annotated with red rectangle) where you can type any text to start interacting with watsonx Orchestrate. When you start with a new service instance, there will be no custom agents defined and thus, the section under **Agents** will state *No agents available*. You can either click **Create or Deploy** an agent under the Agents section or you can click **Create new agent** (annotated with red arrow) to start developing new agents. You can also select the **Manage agents** link to navigate to the agent management page.
-Try to type a few generic questions and observe the responses from the large language model (LLM) powering the prebuilt agent in watsonx Orchestrate which ensures basic functionality until custom agents are created.
+5- Após o lançamento do serviço Watsonx Orchestrate, você será direcionado para a página inicial, conforme ilustrado na figura abaixo. Você verá uma interface de conversação intuitiva com um campo de bate-papo (marcado com um retângulo vermelho) onde poderá digitar qualquer texto para começar a interagir com o Watsonx Orchestrate. Ao iniciar uma nova instância do serviço, não haverá agentes personalizados definidos e, portanto, a seção em **Agents** irá mostrar *No agents available*. Você pode clicar **Create or Deploy** um agente na seção Agentes ou você pode clicar **Create new agent** (indicado pela seta vermelha) para começar a desenvolver novos agentes. Você também pode selecionar o link **Gerenciar agentes** para navegar até a página de gerenciamento de agentes.
+Tente digitar algumas perguntas genéricas e observe as respostas do modelo de linguagem grande (LLM) que alimenta o agente pré-construído no Watsonx Orchestrate, o que garante a funcionalidade básica até que os agentes personalizados sejam criados.
 ![wxo landing page](images/wxo-landing-page.png) 
 
-## Financial Analyst Agent Creation
-In this section, you will go through the process of creating an AI agent in watsonx Orchestrate:
+## Criação de Agente Analista Financeiro
+Nesta seção, você percorrerá o processo de criação de um agente de IA no watsonx Orchestrate:
 
-6- To start building agents, you can click the **Create new agent** link as referenced in step 5 or alternatively, click the top left navigation menu, expand the **Build** section (annotated with red arrow) and select **Agent Builder** (annotated with red rectangle). This will redirect you to the Manage agents page.
+6- Para começar a construir agentes, você pode clicar em **Create new agent** conforme referenciado na etapa 5 ou, alternativamente, clique no menu de navegação superior esquerdo, expanda o **Build**  (anotado com seta vermelha) e selecione **Agent Builder** (indicado com um retângulo vermelho). Isso o redirecionará para a página Gerenciar agentes.
 ![wxo agent builder](images/wxo-nav-menu-agent-builder.png) 
 
-7- The Manage agents page will initially be blank since no agents have been created yet. As you create more and more AI agents that can reason and act, the Manage agents page will be populated with those agents. Click **Create agent** button (annotated with red arrow) to start building your first agent.
+7- A página Gerenciar agentes estará inicialmente em branco, pois nenhum agente foi criado ainda. À medida que você cria mais e mais agentes de IA capazes de raciocinar e agir, a página Gerenciar agentes será preenchida com esses agentes. Clique no botão **Create agent**  (anotado com seta vermelha) para começar a construir seu primeiro agente.
 ![wxo create agent](images/wxo-create-agent-manage-agents-empty.png) 
 
-8- On the Create an agent page, select **Create from scratch** tile (annotated with red rectangle), provide a **Name** and a **Description** for the agent and click **Create** (annotated with red arrow).
+8- Na página Criar um agente, selecione **Create from scratch**  (anotado com retângulo vermelho), forneça um **Name** e uma **Description** para o agente e clique **Create** (anotado com seta vermelha).
 
 Name: 
 ```
-Financial Analyst Agent
+Agente Analista Financeiro
+
 ```
 
 Description: 
 ```
-Agent skilled at financial research using internal knowledge and external search of public information.
+Agente especializado em pesquisa financeira utilizando conhecimento interno e busca externa de informações públicas.
 ```
-The natural language description of an agent is important as it is leveraged by the agentic solution to route user messages to the right agent skilled in addressing the request. For more details, please review the [Understanding the description attribute for AI Agent](https://www.ibm.com/docs/en/watsonx/watson-orchestrate/current?topic=agents-creating#understanding-the-description-attribute-for-ai-agent) documentation.
+A descrição em linguagem natural de um agente é importante, pois é utilizada pela solução agêntica para encaminhar as mensagens do usuário ao agente certo e qualificado para atender à solicitação. Para mais detalhes, consulte o [Compreendendo o atributo de descrição do Agente de IA](https://www.ibm.com/docs/en/watsonx/watson-orchestrate/current?topic=agents-creating#understanding-the-description-attribute-for-ai-agent) documentation.
 
-watsonx Orchestrate supports creating an agent from scratch or from a template which involves browsing a catalog of existing agents and using attributed of another agent as a template for the new agent. For this lab, you will be creating agents from scratch.
+O Watsonx Orchestrate permite a criação de um agente do zero ou a partir de um modelo, o que envolve navegar por um catálogo de agentes existentes e usar atributos de outro agente como modelo para o novo agente. Neste laboratório, você criará agentes do zero.
 
-*Note: It is recommended to review the [What are AI Agents?](https://www.ibm.com/think/topics/ai-agents) blog for some background on how AI agents work.*
+*Observação: é recomendável revisar o blog [O que são agentes de IA?](https://www.ibm.com/think/topics/ai-agents) para obter algumas informações básicas sobre como os agentes de IA funcionam.*
 ![wxo financial research agent](images/wxo-financial-research-agent.png) 
 
-### Agent Configuration with Knowledge Base
-After the AI Agent is created, in this section, you will go through the process of configuring the agent with knowledge and tools to enable it to respond to queries using information from the knowledge base and perform tasks using the tools.
+### Configuração do agente com base de conhecimento
+Após a criação do Agente de IA, nesta seção, você passará pelo processo de configuração do agente com conhecimento e ferramentas para permitir que ele responda a consultas usando informações da base de conhecimento e execute tarefas usando as ferramentas.
 
-9- Next, you will go through the process of configuring your agent. The Financial Research Agent page is split in two halves. The right half is a **Preview** (annotated with red oval) chat interface that allows you to test the behavior of your agent. The left half of the page consits of four key sections (annotated with red rectangles) that you can use to configure your agent.
+9- Em seguida, você passará pelo processo de configuração do seu agente. A página do Agente de Pesquisa Financeira é dividida em duas metades. A metade direita é uma interface de bate-papo de **Visualização** (indicada com um oval vermelho) que permite testar o comportamento do seu agente. A metade esquerda da página consiste em quatro seções principais (indicadas com retângulos vermelhos) que você pode usar para configurar seu agente.
 
-   - Profile: The **Profile** section consists of the description of the agent which you provided as part of creating the agent. You can always go to this section to edit and refine the description of the agent as needed.
+   - Profile: A seção **Profile** contém a descrição do agente que você forneceu ao criá-lo. Você pode acessar esta seção para editar e refinar a descrição do agente conforme necessário.
 
-   - Knowledge: The **Knowledge** section is where you can add knowledge to the agent. Adding knowledge to agents plays a crucial role in enhancing their conversational capabilities by providing them with the necessary information to generate accurate and contextually relevant responses for specific use cases. You can directly upload files to the agent, or connect to a Milvus or Elasticsearch instance as a content repository. Through this **Knowledge** interface, you can enable your AI agents to implement the Retrieval Augmented Generation (RAG) pattern which is a very popular AI pattern for grounding responses to a trusted source of data such as enterprise knowledge base.
+   - Knowledge: A seção **Knowledge** é onde você pode adicionar conhecimento ao agente. Adicionar conhecimento aos agentes desempenha um papel crucial no aprimoramento de suas capacidades de conversação, fornecendo-lhes as informações necessárias para gerar respostas precisas e contextualmente relevantes para casos de uso específicos. Você pode enviar arquivos diretamente para o agente ou conectar-se a uma instância do Milvus ou Elasticsearch como um repositório de conteúdo. Por meio dessa interface de **Knowledge**, você pode habilitar seus agentes de IA para implementar o padrão de Geração Aumentada de Recuperação (RAG), um padrão de IA muito popular para fundamentar respostas em uma fonte confiável de dados, como uma base de conhecimento empresarial.
    
-   *Note: For more details, please consult the [Adding knowledge to agents](https://www.ibm.com/docs/en/watsonx/watson-orchestrate/current?topic=agents-adding-knowledge) documentation.*
+   *Observação: para obter mais detalhes, consulte a documentação [Adicionando conhecimento aos agentes](https://www.ibm.com/docs/en/watsonx/watson-orchestrate/current?topic=agents-adding-knowledge).*
 
-   - Toolset: While *Knowledge* is how you empower agents with a trusted knowledge base, then **Toolset** is how you enable agents to take action by providing them with *Tools* and *Agents*. Agents can accomplish tasks by using **Tools** or can delegate tasks to other **Agents** which are deeply skilled in such tasks.
+   - Toolset: Enquanto **Knowledge** é como você capacita agentes com uma base de conhecimento confiável, **Toolset** é como você capacita agentes a agir, fornecendo a eles *Tools* e *Agents*. Os agentes podem realizar tarefas usando **Tools** ou delegar tarefas a outros **Agents** que sejam profundamente qualificados nessas tarefas.
 
-   *Note: For more details, please consult the [Adding tools to an agent](https://www.ibm.com/docs/en/watsonx/watson-orchestrate/current?topic=agents-adding-tools) and [Adding agents for orchestration](https://www.ibm.com/docs/en/watsonx/watson-orchestrate/current?topic=agents-adding-orchestration) sections of the documentation.*
+   *Observação: Para obter mais detalhes, consulte as seções [Adicionando ferramentas a um agente](https://www.ibm.com/docs/en/watsonx/watson-orchestrate/current?topic=agents-adding-tools) e [Adicionando agentes para orquestração](https://www.ibm.com/docs/en/watsonx/watson-orchestrate/current?topic=agents-adding-orchestration) da documentação.*
    
-   - Behavior: The **Behavior** section of the agent configuration is where you provide instructions to the agent to define how it responds to user requests and situations. You can configure rules that dictate when and how the agent should take action. These rules help the agent behave in a predictable and consistent manner, delivering a seamless user experience.
+   - Behavior: A seção **CompoBehaviorrtamento** da configuração do agente é onde você fornece instruções ao agente para definir como ele responde às solicitações e situações do usuário. Você pode configurar regras que determinam quando e como o agente deve agir. Essas regras ajudam o agente a se comportar de maneira previsível e consistente, proporcionando uma experiência perfeita ao usuário.
 
-   *Note: For more details, please consult the [Adding instructions to agents](https://www.ibm.com/docs/en/watsonx/watson-orchestrate/current?topic=agents-adding-instructions) documentation.
+   *Observação: Para obter mais detalhes, consulte a documentação [Adicionando instruções aos agentes](https://www.ibm.com/docs/en/watsonx/watson-orchestrate/current?topic=agents-adding-instructions).
 
-Lastly, after you've completed your agent configuration and tested its performance, you can **Deploy** the agent (annotated with red arrow) to make it available through the selected channel. At this time, the main channel supported is the *Chat* home page you access when you first launched watsonx Orchestrate. The product will be adding support for additional channels where you can deploy your agent(s).
+Por fim, após concluir a configuração do seu agente e testar seu desempenho, você pode **Implantar** o agente (indicado pela seta vermelha) para disponibilizá-lo no canal selecionado. No momento, o principal canal suportado é a página inicial do *Chat* que você acessa ao iniciar o watsonx Orchestrate pela primeira vez. O produto adicionará suporte a canais adicionais onde você poderá implantar seu(s) agente(s).
 
 ![wxo create agent config](images/wxo-create-agent-config.png) 
 
-10- On the agent configuration page, review the *Description* of the agent in the **Profile** section and keep as is (no edits necessary). Next, scroll down to the **Knowledge** section, or click the **Knowledge** shortcut (annotated with red oval). In the Knowledge section, add a description to inform the agent about the content of the knowledge. For this lab, add the following description as we will provide the agent with a number of recent earnings reports for a handful of companies.
+10- Na página de configuração do agente, revise a *Descrição* do agente na seção **Profile** e mantenha-a como está (sem necessidade de edição). Em seguida, role para baixo até a seção **Knowledge** ou clique no atalho **Knowledge** (indicado com um oval vermelho). Na seção Conhecimento, adicione uma descrição para informar o agente sobre o conteúdo do conhecimento. Para este laboratório, adicione a seguinte descrição, pois forneceremos ao agente diversos relatórios de lucros recentes de algumas empresas.
 
 Description: 
 ```
-This knowledge addresses all details about earning reports for the companies of interest. Research analysts can ask about any details from earning reports.
+Este conhecimento aborda todos os detalhes sobre os relatórios de lucros das empresas de interesse. Analistas de pesquisa podem perguntar sobre quaisquer detalhes dos relatórios de lucros.
 ```
 
-Next, you have to choose how to provide knowledge information to the agent. watsonx Orchestrate supports adding knowledge to the agent either by uploading files directly through the UI or by pointing to a content repository (Mivlus or ElasticSearch). The [Adding knowledge to agents](https://www.ibm.com/docs/en/watsonx/watson-orchestrate/current?topic=agents-adding-knowledge) documentation provides more details. For this lab, click the **Upload files** button (annotated with red arrow) to upload pdf files capturing earnings reports for AMZN, META, NVDA, and NFLX.
+Em seguida, você precisa escolher como fornecer informações de conhecimento ao agente. O watsonx Orchestrate oferece suporte à adição de conhecimento ao agente, seja enviando arquivos diretamente pela interface do usuário ou apontando para um repositório de conteúdo (Mivlus ou ElasticSearch). A documentação [Adicionando conhecimento aos agentes](https://www.ibm.com/docs/en/watsonx/watson-orchestrate/current?topic=agents-adding-knowledge) fornece mais detalhes. Para este laboratório, clique em **Upload files**  (anotado com seta vermelha) para enviar arquivos PDF capturando relatórios de lucros da AMZN, META, NVDA e NFLX.
 
 ![wxo agent config knowledge](images/wxo-agent-config-knowledge.png) 
 
 
-Drag and drop the following pdf files to upload to the knowledge for the agent :
-   - [AMZN-Q4-2024-Earnings.pdf](documents/AMZN-Q4-2024-Earnings.pdf)
-   - [META-Q4-2024-Earnings.pdf](documents/META-Q4-2024-Earnings.pdf)
-   - [NFLX-Q4-2024-Earnings.pdf](documents/NFLX-Q4-2024-Earnings.pdf)
-   - [NVDA-Q4-2024-Earnings.pdf](documents/NVDA-Q4-2024-Earnings.pdf)
+Arraste e solte os seguintes arquivos PDF para enviar ao conhecimento do agente:
+   - [AMZN-Q4-2024-Earnings.pdf](../../anexos/financial/AMZN-Q4-2024-Earnings_ptBR.pdf)
+   - [META-Q4-2024-Earnings.pdf](../../anexos/financial/META-Q4-2024-Earnings_ptBR.pdf)
+   - [NFLX-Q4-2024-Earnings.pdf](../../anexos/financial/NFLX-Q4-2024-Earnings_ptBR.pdf)
+   - [NVDA-Q4-2024-Earnings.pdf](../../anexos/financial/NVDA-Q4-2024-Earnings_ptBR.pdf)
 
 ![wxo knowledge upload files](images/wxo-knowledge-upload-files.png) 
 
 
-11- Once the files are all uploaded to the knowledge base, you can start testing the agent to validate how it can respond to questions using this knowledge base. The uploaded files get processed and prepared to be leveraged by the agent. After the upload completes, test the agent by asking a few questions such as:
+11- Após o upload de todos os arquivos para a base de conhecimento, você pode começar a testar o agente para validar como ele responde a perguntas usando essa base de conhecimento. Os arquivos enviados são processados ​​e preparados para serem utilizados pelo agente. Após a conclusão do upload, teste o agente fazendo algumas perguntas, como:
 
-```Can you tell me about Meta's business```
+```Você pode me falar sobre os negócios da Meta?```
 
-```I'm interested in learning more about Meta and Amazon. Can you tell me a bit about their businesses?```
+```Tenho interesse em saber mais sobre a Meta e a Amazon. Você pode me contar um pouco sobre os negócios deles?```
 
-You should see the responses being retrieved from the uploaded documents and then the final response generated by the agent as illustrated in the figure below.
+Você deverá ver as respostas sendo recuperadas dos documentos enviados e, em seguida, a resposta final gerada pelo agente, conforme ilustrado na figura abaixo.
 
 ![wxo agent knowledge test](images/wxo-agent-knowledge-test.png) 
 
-At this time, it is worthwhile taking a moment to reflect on what you've developed so far. You have design an agent and empowered it with a knowledge base to enable it to respond to queries in context using its knowledge base. *Congratulations!!*
+Neste momento, vale a pena refletir um pouco sobre o que você desenvolveu até agora. Você projetou um agente e o capacitou com uma base de conhecimento para que ele possa responder a consultas em contexto usando sua base de conhecimento. *Parabéns!!*
 
-Reviewing the architecture, you've completed the part of the agentic solution which involved creating the Financial Analyst agent and empowering it with a knowledge base (annotated with red rectangles in the figure below). In the next section, you will work through the process of creating the **Financial API Agent** and the **Web Search Agent** which you will then add as collaborator agents to the **Financial Analyst Agent**.
+Ao revisar a arquitetura, você concluiu a parte da solução agêntica que envolveu a criação do agente Analista Financeiro e sua capacitação com uma base de conhecimento (indicada com retângulos vermelhos na figura abaixo). Na próxima seção, você trabalhará no processo de criação do **Agente de API financeira** e o **Agente de pesquisa na Web**, que você adicionará como agentes colaboradores ao **Agente de analista financeiro**.
 
 ![wxo agent knowledge complete](images/wxo-financial-research-agent-knowledge-complete.png) 
 
-## Financial API Agent Creation and Configuration
-In this section, you will develop the Financial API Agent, one of the collaborator agents which is specifically skilled at returning market data and glossary definitions. In this hands-on lab, the Financial API Agent is empowered with two tools, the **Market Data Tool** which returns stock prices and the **Glossary Tool** which leverages Wikipedia to return glossary definitions. In practice, this agent can also get access to other internal tools such as those for modeling stock behavior or forecasting stock prices; the approach to empower the agent with such tools would be the same.
+## Criação e configuração do agente de API financeira
+Nesta seção, você desenvolverá o Agente de API Financeira, um dos agentes colaboradores especificamente habilitado para retornar dados de mercado e definições de glossários. Neste laboratório prático, o Agente de API Financeira conta com duas ferramentas: a **Ferramenta de Dados de Mercado**, que retorna preços de ações, e a **Ferramenta de Glossário**, que utiliza a Wikipédia para retornar definições de glossários. Na prática, este agente também pode acessar outras ferramentas internas, como as de modelagem do comportamento de ações ou previsão de preços de ações; a abordagem para capacitar o agente com essas ferramentas seria a mesma.
 
-12- If you are not at the watsonx Orchestrate landing page (chat interface), repeat the steps above to make sure you are logged into IBM Cloud, find the watsonx Orchestrate service and launch it to access the landing page.
+12- Se você não estiver na página inicial do watsonx Orchestrate (interface de bate-papo), repita as etapas acima para garantir que você esteja conectado ao IBM Cloud, localize o serviço watsonx Orchestrate e inicie-o para acessar a página inicial.
 
-13- From the watsonx Orchestrate landing page, click **Create agent** (annotated with red rectangle) to start developing a new agent, the Financial API Agent.
+13- From the watsonx Orchestrate landing page, click **Create agent** (anotado com retângulo vermelho) para começar a desenvolver um novo agente, o Agente de API Financeira.
 
 ![wxo create agent chatUI](images/wxo-create-agent.png) 
 
-14- On the Create an agent page, select **Create from scratch** tile , provide a **Name** and a **Description** for the agent and click **Create** (annotated with red arrow).
+14- Na página Criar um agente, selecione **Create from scratch**, provide a **Name** e uma **Description** para o agente e clique **Create** (annotated with red arrow).
 
-Name: ```Financial API Agent```
+Name: ```Agente API Financeiro```
 
-Description: 
+Descrição: 
 ```
-Agent skilled in retrieving market data as well as glossary definitions for financial terms.
+Agente especializado em recuperar dados de mercado, bem como definições de glossário para termos financeiros.
 ```
-As explained earlier, the decription of an agent is important as it is leveraged by the agentic solution to route user messages to the right agent skilled in addressing the request.
+Conforme explicado anteriormente, a descrição de um agente é importante, pois ela é aproveitada pela solução de agente para encaminhar mensagens do usuário ao agente certo e qualificado para atender à solicitação.
 
 ![wxo create financial api agent](images/wxo-create-financial-api-agent.png) 
 
-15- On the agent configuration page, scroll down to **Toolset** section or click the shortcut (annotated with red oval). Then cick the **Add tool** button (annotated with red arrow) to bring up the window for adding tools to the agent.
+15- Na página de configuração do agente, role para baixo até **Toolset** ou clique no atalho (anotado com oval vermelho). Em seguida, clique no botão **Add tool**  (anotado com seta vermelha) para abrir a janela para adicionar ferramentas ao agente.
 
 ![wxo agent tools](images/wxo-agent-tools.png) 
 
-16- On the tool options pop-up, select **Import** (annotated with red rectangle) as illustrated in the figure below. 
+16- No pop-up de opções da ferramenta, selecione **Import** (anotado com retângulo vermelho) conforme ilustrado na figura abaixo.
 
 ![wxo tool options](images/wxo-tool-options.png) 
 
-watsonx Orchestrate supports multiple approaches to adding tools to agents as explained in the [Adding tools to an agent](https://www.ibm.com/docs/en/watsonx/watson-orchestrate/current?topic=agents-adding-tools) documentation:
+O watsonx Orchestrate oferece suporte a várias abordagens para adicionar ferramentas a agentes, conforme explicado na documentação [Adicionando ferramentas a um agente](https://www.ibm.com/docs/en/watsonx/watson-orchestrate/current?topic=agents-adding-tools):
 
-   - Add from catalog: The **Add from catalog** option enables you to add a tool from a rich catalog of pre-defined tools. The catalog of tools is actively being developed to make it even easier to add tools to agents.
+   - Adicionar do catálogo: A opção **Add from catalog** permite adicionar uma ferramenta de um catálogo completo de ferramentas predefinidas. O catálogo de ferramentas está sendo desenvolvido ativamente para facilitar ainda mais a adição de ferramentas aos agentes.
 
-   - Add from local instance: The **Add from local instance** option enables you to add a tool from an existing set of tools already uploaded to the local instance of watsonx Orchestrate. 
+   - Adicionar da instância local: A opção **Add from local instance** permite adicionar uma ferramenta de um conjunto existente de ferramentas já carregadas na instância local do Watsonx Orchestrate.
 
-   - Import: The **Import** option enables you to import an external tool using an OpenAPI specification and selecting which operations you want to import as tools.
+   - Importar: A opção **Import** permite importar uma ferramenta externa usando uma especificação OpenAPI e selecionando quais operações você deseja importar como ferramentas.
 
-   - Create a new flow: The **Create a new flow** option provides you with a drag and drop tool builder interface to create a sequence of steps that utilize conditional controls and activities. 
+   - Criar um novo fluxo: A opção **Create a new flow** fornece uma interface de construtor de ferramentas com recurso de arrastar e soltar para criar uma sequência de etapas que utiliza controles e atividades condicionais.
 
-Additionally, you can use the watsonx Orchestrate [Agentic Development Kit (ADK)](https://developer.watson-orchestrate.ibm.com/) to develop and upload Python and OpenAPI tools to a specific watsonx Orchestrate instance which you can then add to the agents.
-watsonx Orchestrate also supports the addition of [Model Context Protocol (MCP)](https://developer.watson-orchestrate.ibm.com/) tools. If you are not familiar with it, MCP is a standard for connecting AI Agents to systems where data lives including content repositories, business tools and development environments. MCP is becoming increasingly popular as the standard for enabling agents with tools.
+Além disso, você pode usar o [Agentic Development Kit (ADK)](https://developer.watson-orchestrate.ibm.com/) do watsonx Orchestrate para desenvolver e carregar ferramentas Python e OpenAPI em uma instância específica do watsonx Orchestrate, que você pode então adicionar aos agentes.
+O watsonx Orchestrate também suporta a adição de ferramentas do [Model Context Protocol (MCP)](https://developer.watson-orchestrate.ibm.com/). Se você não estiver familiarizado com ele, o MCP é um padrão para conectar agentes de IA a sistemas onde os dados residem, incluindo repositórios de conteúdo, ferramentas de negócios e ambientes de desenvolvimento. O MCP está se tornando cada vez mais popular como o padrão para habilitar agentes com ferramentas.
 
-For purposes of the Financial API Agent, you will use the **Import** option to import an OpenAPI specification and define which operations to import as tools. You will need a [financial_api_openapi.json](openapi_files/financial_api_openapi.json) file which will be provided by your instructor. 
+Para fins do Agente de API Financeira, você usará a opção **Import** para importar uma especificação OpenAPI e definir quais operações importar como ferramentas. Você precisará do arquivo [financial_api_openapi.json](../../anexos/financial/financial_api_openapi.json).
 
-17- On the Import tool page, drag and drop the [financial_api_openapi.json](openapi_files/financial_api_openapi.json) file provided by your instructor (annotated with red rectangle) and click **Next** (annotated with red arrow).
+17- Na página da ferramenta Importar, arraste e solte o arquivo e clique em **Next** (annotated with red arrow).
 
 ![wxo tool import openapi](images/wxo-tool-import-openapi.png) 
 
-18- Next, select the checkboxes for the **Get Stock Price Data**, **Get Stock Information**, **Get Financial Statements**, **Get Earnings Report**, and **Search Wikipedia** operations (annotated with red arrows) and click **Done**.
+18- Em seguida, marque as caixas de seleção para as operações **Obter dados de preços de ações**, **Obter informações sobre ações**, **Obter demonstrações financeiras**, **Obter relatório de lucros** e **Pesquisar na Wikipédia** (anotadas com setas vermelhas) e clique em **Done**.
 
 ![wxo tool import operations](images/wxo-tool-import-operations.png) 
 
-19- At this point, you will see the tools imported under the Tools subsection which means they are available for the **Financial API Agent** to use these tools in executing tasks that require retrieving market data or getting glossary information. 
+19- Neste ponto, você verá as ferramentas importadas na subseção Ferramentas, o que significa que elas estão disponíveis para o **Agente da API Financeira** usar essas ferramentas na execução de tarefas que exigem a recuperação de dados de mercado ou a obtenção de informações de glossário.
 
-20- Next, scroll further down to the **Behavior** section or click the **Behavior** shortcut (annotated with red oval) and add the following Instructions to guide the agent in its reasoning and orchestration.
+20- Em seguida, role mais para baixo até o **Behavior** ou clique no atalho do **Behavior**  (anotado com oval vermelho) e adicione as seguintes instruções para orientar o agente em seu raciocínio e orquestração.
 
-Instructions:
+Instruções:
 ```
-You are a Financial Analyst Agent that provides comprehensive financial research and analysis. Your capabilities include:
+Você é um Agente Analista Financeiro que fornece pesquisas e análises financeiras abrangentes. Suas habilidades incluem:
 
-**Stock Analysis:**
-- Get real-time stock price data and historical performance using Yahoo Finance
-- Retrieve comprehensive company information including financial metrics, market data, and business descriptions
-- Access detailed financial statements (income statement, balance sheet, cash flow statement) with both annual and quarterly data
+**Análise de Ações:**
+- Obtenha dados de preços de ações em tempo real e desempenho histórico usando o Yahoo Finanças
+- Obtenha informações abrangentes da empresa, incluindo métricas financeiras, dados de mercado e descrições de negócios
+- Acesse demonstrações financeiras detalhadas (demonstração de resultados, balanço patrimonial, demonstração de fluxo de caixa) com dados anuais e trimestrais
 
-**Research & Information:**
-- Search the web for current financial news, analyst reports, and market insights using DuckDuckGo Search
-- Find definitions of financial terms and company background information using Wikipedia search
-- Provide contextual analysis by combining multiple data sources
+**Pesquisa e Informações:**
+- Pesquise na web por notícias financeiras atuais, relatórios de analistas e insights de mercado usando o Brave Search
+- Encontre definições de termos financeiros e informações básicas da empresa usando a busca na Wikipédia
+- Forneça análises contextuais combinando múltiplas fontes de dados
 
-**TOOL SELECTION GUIDE:**
+**GUIA DE SELEÇÃO DE FERRAMENTAS:**
 
-**GET STOCK INFORMATION tool** - Use for:
-- Current company metrics (P/E ratio, market cap, profit margin, beta)
-- Company fundamentals (sector, industry, business description)
-- Valuation ratios and financial statistics
-- Current stock price with key metrics
-- Company comparisons and analysis
+**Ferramenta OBTER INFORMAÇÕES SOBRE AÇÕES** - Use para:
+- Métricas atuais da empresa (índice P/L, capitalização de mercado, margem de lucro, beta)
+- Fundamentos da empresa (setor, indústria, descrição do negócio)
+- Índices de avaliação e estatísticas financeiras
+- Preço atual da ação com métricas-chave
+- Comparações e análises de empresas
 
-**GET STOCK PRICE DATA tool** - Use for:
-- Historical price performance and trends
-- Time-series analysis (1 day to 10 years)
-- Trading volume and volatility analysis
-- Technical analysis and price patterns
-- Performance over specific time periods
+**Ferramenta OBTER DADOS DE PREÇOS DE AÇÕES** - Use para:
+- Desempenho histórico de preços e tendências
+- Análise de séries temporais (1 dia a 10 anos)
+- Análise de volume de negociação e volatilidade
+- Análise técnica e padrões de preços
+- Desempenho em períodos específicos
 
-**GET FINANCIAL STATEMENTS tool** - Use for:
-- Quarterly/annual financial data (Q1, Q2, Q3, Q4 results)
-- Income statements, balance sheets, cash flow statements
-- Historical financial trends and comparisons
-- Debt analysis, revenue growth, profitability metrics
-- Multi-year financial performance
+**Ferramenta OBTER DEMONSTRAÇÕES FINANCEIRAS** - Use para:
+- Dados financeiros trimestrais/anuais (resultados do 1º, 2º, 3º e 4º trimestres)
+- Demonstrações de resultados, balanços patrimoniais, demonstrações de fluxo de caixa
+- Tendências e comparações financeiras históricas
+- Análise de dívida, crescimento da receita, métricas de lucratividade
+- Desempenho financeiro plurianual
 
-**SEARCH WIKIPEDIA tool** - Use for:
-- Financial term definitions and explanations
-- Educational content about financial concepts
-- Company background and historical information
+**Ferramenta PESQUISAR NA WIKIPEDIA** - Use para:
+- Definições e explicações de termos financeiros
+- Conteúdo educacional sobre conceitos financeiros
+- Histórico e histórico da empresa
 
-**Response Guidelines:**
-- For current metrics and ratios, use GET STOCK INFORMATION tool
-- For historical performance analysis, use GET STOCK PRICE DATA tool
-- For quarterly/annual financials, use GET FINANCIAL STATEMENTS tool
-- For definitions and education, use SEARCH WIKIPEDIA tool
-- Always provide data-driven insights with specific metrics when available
-- Cite your sources and indicate when data is real-time vs historical
+**Diretrizes de resposta:**
+- Para métricas e índices atuais, use a ferramenta OBTER INFORMAÇÕES SOBRE AÇÕES
+- Para análise de desempenho histórico, use a ferramenta OBTER DADOS DE PREÇOS DE AÇÕES
+- Para demonstrações financeiras trimestrais/anuais, use a ferramenta OBTER DEMONSTRAÇÕES FINANCEIRAS
+- Para definições e informações educacionais, use a ferramenta PESQUISAR NA WIKIPEDIA
+- Sempre forneça insights baseados em dados com métricas específicas, quando disponíveis
+- Cite suas fontes e indique quando os dados são em tempo real ou históricos
 
-**Enhanced Example Use Cases:**
-- "What is Apple's current P/E ratio?" → Use GET STOCK INFORMATION tool
-- "How did Apple perform over the last 6 months?" → Use GET STOCK PRICE DATA tool
-- "Show me Apple's Q1 2024 results" → Use GET FINANCIAL STATEMENTS tool (with year: 2024, quarter: "Q1")
-- "Compare Apple and Tesla market caps" → Use GET STOCK INFORMATION tool for both companies
-- "Apple's 3-year revenue growth trend" → Use GET FINANCIAL STATEMENTS tool (with years_back: 3)
-- "What is EBITDA margin?" → Use SEARCH WIKIPEDIA tool
-- "Tesla's debt-to-equity ratio over last 3 years" → Use GET FINANCIAL STATEMENTS tool (statement_type: "balance", years_back: 3)
+**Exemplos de Casos de Uso Aprimorados:**
+- "Qual é o índice P/L atual da Apple?" → Use a ferramenta OBTER INFORMAÇÕES SOBRE AÇÕES
+- "Qual foi o desempenho da Apple nos últimos 6 meses?" → Use a ferramenta OBTER DADOS SOBRE PREÇOS DE AÇÕES
+- "Mostre-me os resultados da Apple no 1º trimestre de 2024" → Use a ferramenta OBTER DEMONSTRAÇÕES FINANCEIRAS (com ano: 2024, trimestre: "1º trimestre")
+- "Compare os valores de mercado da Apple e da Tesla" → Use a ferramenta OBTER INFORMAÇÕES SOBRE AÇÕES para ambas as empresas
+- "Tendência de crescimento da receita da Apple nos últimos 3 anos" → Use a ferramenta OBTER DEMONSTRAÇÕES FINANCEIRAS (com anos_retroativos: 3)
+- "O que é margem EBITDA?" → Use a ferramenta PESQUISA NA WIKIPÉDIA
+- "Índice dívida/patrimônio líquido da Tesla nos últimos 3 anos" → Use a ferramenta OBTER DEMONSTRAÇÕES FINANCEIRAS (statement_type: "balance", years_back: 3)
 
-**Multi-Tool Examples:**
-- "Analyze Apple's performance and valuation" → GET STOCK INFORMATION + GET STOCK PRICE DATA
-- "Compare Q1 results of Apple and Google with P/E ratios" → GET FINANCIAL STATEMENTS + GET STOCK INFORMATION for both
-- "Explain EBITDA and show Microsoft's EBITDA trend" → SEARCH WIKIPEDIA + GET FINANCIAL STATEMENTS
+**Exemplos de ferramentas múltiplas:**
+- "Analisar o desempenho e a avaliação da Apple" → OBTER INFORMAÇÕES SOBRE AÇÕES + OBTER DADOS SOBRE O PREÇO DAS AÇÕES
+- "Comparar os resultados do primeiro trimestre da Apple e do Google com os índices P/L" → OBTER DEMONSTRAÇÕES FINANCEIRAS + OBTER INFORMAÇÕES SOBRE AÇÕES para ambas
+- "Explicar o EBITDA e mostrar a tendência do EBITDA da Microsoft" → PESQUISAR NA WIKIPÉDIA + OBTER DEMONSTRAÇÕES FINANCEIRAS
 ```
 
-Also, switch the slide bar to the off position (annotated with red arrow) to disable making the **Financial API Agent** accessible on the chat interface. This agent is only a supporting agent to the **Financial Analyst Agent** only and as such, should be disabled from appearing on the chat interface.
+Além disso, desative a barra deslizante (indicada pela seta vermelha) para desativar o acesso do **Agente da API Financeira** na interface de chat. Este agente é apenas um agente de suporte ao **Agente Analista Financeiro** e, portanto, deve ser desativado para não aparecer na interface de chat.
 
 ![wxo financial agent behavior](images/wxo-financial-api-agent-behavior.png)
 
-21- Now that you have completed the creation of the agent and added the tools it requires, test the tools in the Preview section by asking a sample question such as:
+21- Agora que você concluiu a criação do agente e adicionou as ferramentas necessárias, teste as ferramentas na seção Visualização fazendo uma pergunta de exemplo, como:
 
 ```
-what was Amazon's revenue and profit in 2023?
+qual foi a receita e o lucro da Amazon em 2023?
 ```
 
-Observe the response which was based on the information returned by the Market Data tool. To verify that, click the **Show Reasoning** link (annotated with red arrow) to expand the agent's reasoning. Note that the agent is correctly calling the **Get_Financial_Statements** tool (annotated with red oval) and it shows both input and output of the tool call.
+Observe a resposta baseada nas informações retornadas pela ferramenta Dados de Mercado. Para verificar isso, clique no link **Mostrar Raciocínio** (indicado com uma seta vermelha) para expandir o raciocínio do agente. Observe que o agente está chamando corretamente a ferramenta **Obter_Declarações_Financiadoras** (indicada com um oval vermelho) e que ela mostra tanto a entrada quanto a saída da chamada da ferramenta.
 
 ![wxo tool earnings](images/wxo-financial-api-agent-tool-earnings.png) 
 
-22- Test the **Financial API Agent** further by asking another question:
-```What does EBITDA mean?```
+22- Teste o **Agente de API Financeira** mais detalhadamente fazendo outra pergunta:
+```O que significa EBITDA?```
 
-Again, observe the response and expand the **Show Reasoning** link to trace through the agent's reasoning which in this case correctly triggered the **Search_Wikipedia** tool (annotated with red oval).
+Novamente, observe a resposta e expanda o link **Mostrar raciocínio** para rastrear o raciocínio do agente que, neste caso, acionou corretamente a ferramenta **Pesquisar na Wikipedia** (anotada com um oval vermelho).
 
 ![wxo tool glossary](images/wxo-financial-api-agent-tool-glossary.png) 
 
-23- At this point, click the **Deploy** button to deploy the agent and makes it available to be used as a collaborator agent.
+23- Neste ponto, clique no botão **Deploy** para implantar o agente e torná-lo disponível para ser usado como um agente colaborador.
 
 ![wxo financial agent deploy](images/wxo-financial-api-agent-deploy.png) 
 
-*Congratulations!!* You have just completed developing the **Financial API Agent** empowered with tools for returning earnings data and glossardy definitions.
+*Parabéns!!* Você acabou de concluir o desenvolvimento do **Agente de API Financeira** equipado com ferramentas para retornar dados de ganhos e definições de glossário.
 
-## Web Search Agent Creation and Configuration
-In this section, you will develop the **Web Search Agent**, another collaborator agents which is specifically skilled at searching the web and returning publicly available details about an entity as well as any recent news and analyst reports. 
+## Criação e configuração do agente de pesquisa na Web
+Nesta seção, você desenvolverá o **Agente de Busca na Web**, outro agente colaborador especializado em buscar na web e retornar detalhes publicamente disponíveis sobre uma entidade, bem como notícias e relatórios de analistas recentes.
 
-The architecture references multiple web search tools, namely, the **Brave Search Tool** and the **DuckDuckGo Search Tool**. Since these web search tools utilize different underlying technologies, leveraging both web search tools can return more relevant information and then the Web Search Agent would handle aggregating the final response. In this hands-on lab, you will add the **DuckDuckGo Search Tool** and complete the hands-on lab using just that search tool. 
+A arquitetura faz referência a diversas ferramentas de busca na web, a saber, a **Brave Search Tool** e a **DuckDuckGo Search Tool**. Como essas ferramentas de busca na web utilizam tecnologias subjacentes diferentes, o uso de ambas pode retornar informações mais relevantes, e o Agente de Busca na Web se encarregará de agregar a resposta final. Neste laboratório prático, você adicionará a **DuckDuckGo Search Tool** e concluirá o laboratório prático usando apenas essa ferramenta de busca.
 
-*Optional* You can check with your instructor if they setup the **Brave Search Tool** as well and then you are welcome to try adding that tool as well. If you do add the **Brave Search Tool**, you need to update the instructions for the agent to retrieve search results from multiple tools and aggregate the results.
+*Opcional* Você pode verificar com seu instrutor se ele também configurou a **Brave Search Tool** e, em seguida, você pode tentar adicioná-la. Se você adicionar a **Brave Search Tool**, precisará atualizar as instruções para o agente recuperar resultados de busca de diversas ferramentas e agregá-los.
 
-24- If you are not at the watsonx Orchestrate landing page (chat interface), repeat the earlier steps to make sure you are logged into IBM Cloud, find the watsonx Orchestrate service and launch it to access the landing page.
+24- ISe você não estiver na página inicial do watsonx Orchestrate (interface de bate-papo), repita as etapas anteriores para garantir que você esteja conectado ao IBM Cloud, localize o serviço watsonx Orchestrate e inicie-o para acessar a página inicial.
 
-25- On the watsonx Orchestrate landing page, which is the Chat UI, click **Create new agent** link (annotated with red arrow) to start creating the Web Search Agent.
+25- Na página inicial do watsonx Orchestrate, que é a interface do usuário do bate-papo, clique em **Create new agent** (anotado com seta vermelha) para começar a criar o Agente de Pesquisa na Web.
 
 ![wxo landing page create agent](images/wxo-landing-page-create-agent.png) 
 
-26- Repeat the steps you did earlier to create an agent from scratch and provide the following name and description for the web search agent. Click **Create** (annotated with red arrow).
+26- Repita os passos anteriores para criar um agente do zero e forneça o seguinte nome e descrição para o agente de pesquisa na web. Clique em **Create** (indicado pela seta vermelha).
 
 Name: 
 ```
-Web Search Agent
+Agente de pesquisa na web
 ```
 
-Description: 
+Descrição: 
 ```
-This agent can search the web to retrieve information related to user query.
+Este agente pode pesquisar na web para recuperar informações relacionadas à consulta do usuário.
 ```
 
 ![wxo create web search agent](images/wxo-create-web-search-agent.png) 
 
-27- On the agent configuration page, scroll down to the **Toolset** section or click the **Toolset** shortcut (annotated with red oval), then click **Add tool** (annotated with red arrow).
+27- Na página de configuração do agente, role para baixo até a seção **Toolset** ou clique no atalho **Toolset** shortcut (anotado com oval vermelho) e clique em **Add tool** (anotado com seta vermelha).
 
 ![wxo web search agent toolset](images/wxo-web-search-agent-toolset.png) 
 
-28- As explained earlier, watsonx Orchestrate supports multiple approaches for adding tools to agents. For the Web Search Agent, you will leverage the **Import** functionality like you did earlier. Click the **Import** tile (annotated with red rectangle).
+28- Conforme explicado anteriormente, o Watsonx Orchestrate oferece suporte a diversas abordagens para adicionar ferramentas aos agentes. Para o Agente de Pesquisa na Web, você aproveitará a funcionalidade de **Import** como você fez antes. Clique no **Import** (anotado com retângulo vermelho).
 
 ![wxo web search tool import](images/wxo-web-search-tool-import.png) 
 
-29- On the Import tool page, drag and drop the [websearch_openapi.json](openapi_files/websearch_openapi.json) file provided by your instructor (annotated with red rectangle) and click **Next** (annotated with red arrow).
+29- Na página da ferramenta Importar, arraste e solte o arquivo [websearch_openapi.json](../../anexos/financial/websearch_openapi.json) e clique  **Next**
 
 ![wxo web search agent tool import openapi](images/wxo-web-search-agent-tool-import-openapi.png) 
 
-30- Next, select the checkboxes for the **Get DuckDuckGo Search Results** operation (annotated with red arrow) and click **Done**.
+30- Em seguida, marque as caixas de seleção para a operação **Get DuckDuckGo Search Results**  (anotado com seta vermelha)e clique **Done**.
 
 ![wxo web search agent tool import operations](images/websearch-duckduckgo.png) 
 
-31- At this point, you will see the tool imported under the Tools subsection which means it is available for the **Web Search Agent** to use this tools in executing tasks that require searching the web and retrieving data related to the user query. 
+31- ANeste ponto, você verá a ferramenta importada na subseção Ferramentas, o que significa que ela está disponível para o **Agente de Pesquisa na Web** usar essas ferramentas na execução de tarefas que exigem pesquisas na web e recuperação de dados relacionados à consulta do usuário.
 
-32- Scroll down further to the **Behavior** section of the agent configuration page and add the following 
-**Instructions** to help guide the agent's behavior.
+32- Role mais para baixo até a seção **Behavior** da página de configuração do agente e adicione as seguintes **Instruções** para ajudar a orientar o comportamento do agente.
 
-Instructions: 
+Instruções: 
 ```
-For information about latest or recent news, use the DuckDuckGo search tool. Also, for general inquiries where the information is available on-line can be retrieved using a web search, use the DuckDuckGo search tool.
+Para informações sobre notícias recentes ou mais recentes, use a ferramenta de busca Brave. Além disso, para consultas gerais, onde as informações estão disponíveis online e podem ser recuperadas por meio de uma busca na web, use a ferramenta de busca DuckDuckGo.
 ```
 
-Next, test the functionality of the agent by asking a question such as ```Can you show top executives at Amazon?``` and observe the response of the agent. Click the **Show Reasoning** link (annotated with red arrow) and note how the agent is correctly invoking the **DuckDuckGo Search Tool** to retrieve relevant information.
+Em seguida, teste a funcionalidade do agente fazendo uma pergunta como ```Você pode mostrar os principais executivos da Amazon?``` e observe a resposta do agente. Clique no link **Show Reasoning** (indicado pela seta vermelha) e observe como o agente está invocando corretamente a **DuckDuckGo Search Tool**  para recuperar informações relevantes.
 
 ![wxo web search agent behavior](images/wxo-web-search-agent-behavior-duckduckgo.png) 
 
-33- Now that you have configured and tested the **Web Search Agent**, you can deploy it to make it accessible as a collaborator agent. To do so, switch the slide bar to the off position (annotated with red arrow) to disable making the **Web Search Agent** accessible on the chat interface. This agent is only a supporting agent to the **Financial Analyst Agent** only and as such, should be disabled from appearing on the chat interface.
+33- Agora que você configurou e testou o **Agente de Pesquisa na Web**, pode implantá-lo para torná-lo acessível como um agente colaborador. Para isso, desative a barra deslizante (indicada pela seta vermelha) para desativar o acesso do **Agente de Pesquisa na Web** na interface de chat. Este agente é apenas um agente de suporte ao **Agente de Analista Financeiro** e, portanto, deve ser desativado para não aparecer na interface de chat.
 
-Next, click the **Deploy** button to deploy the agent and makes it available to be used as a collaborator agent.
+Agora clique em **Deploy** para implantar o agente e torná-lo disponível para ser usado como um agente colaborador.
 
 ![wxo web search agent deploy](images/wxo-web-search-agent-deploy.png) 
 
-*Congratulations!!* You have just completed developing the **Web Search Agent** empowered with tools for searching the web and retrieving relevant information.
+*Parabéns!!* Você acabou de concluir o desenvolvimento do **Agente de Busca na Web**, equipado com ferramentas para pesquisar na web e recuperar informações relevantes.
 
-*Note: In the optional section at the end of the lab, you will learn how to add another tool based on an externally hosted MCP web search tool*
+*Observação: Na seção opcional ao final do laboratório, você aprenderá como adicionar outra ferramenta baseada em uma ferramenta de busca na web MCP hospedada externamente*
 
-## Pulling it together - Complete Agent Collaboration <a id="pulling-it-together"></a>
-Now that you have developed all agents and tools, in this section, you will work through the process of integrating the collaborator agents, testing and deploying the **Financial Analyst Agent**.
+## Juntando tudo - Colaboração completa do agente <a id="pulling-it-together"></a>
+Agora que você desenvolveu todos os agentes e ferramentas, nesta seção, você trabalhará no processo de integração dos agentes colaboradores, testando e implantando o **Agente de Analista Financeiro**.
 
-34- If you are not at the watsonx Orchestrate landing page (chat interface), repeat the earlier steps to make sure you are logged into IBM Cloud, find the watsonx Orchestrate service and launch it to access the landing page.
+34- Se você não estiver na página inicial do watsonx Orchestrate (interface de bate-papo), repita as etapas anteriores para garantir que você esteja conectado ao IBM Cloud, localize o serviço watsonx Orchestrate e inicie-o para acessar a página inicial.
 
-35- On the watsonx Orchestrate landing page, which is the Chat UI, click **Manage agents** (annotated with red arrow).
+35- On the watsonx Orchestrate landing page, which is the Chat UI, click **Manage agents** (anotado com seta vermelha).
 
 ![wxo landing page manage agents](images/wxo-landing-page-manage-agents.png) 
 
-36- On the Manage agents page, select the **Financial Analyst Agent** (annotated with red rectangle).
+36- Na página manage agents, selecione o **Agente Analista Financeiro** (anotado com retângulo vermelho).
 
 ![wxo manage agents](images/wxo-manage-agents.png) 
 
-37- On the **Financial Analyst Agent** configuration page, scroll down to the **Toolset** section or click the **Toolset** shortcut (annotated with red oval), and then click **Add agent** (annotated with red arrow) to add a collaborator agent.
+37- Na página de configuração do **Agente de analista financeiro**, role para baixo até a seção **Toolset** ou clique no atalho **Toolset** (anotado com um oval vermelho) e, em seguida, clique em **Add agent** (anotado com uma seta vermelha) para adicionar um agente colaborador.
 
 ![wxo financial analyst collaborator agents](images/wxo-financial-analyst-agent-collaborator-agents.png) 
 
-38- On the pop-up, select **Add from local instance** tile. For reference, watsonx Orchestrate supports multiple approaches for adding collaborator agents. Please take a minute to consult the [Adding agents for orchestration](https://www.ibm.com/docs/en/watsonx/watson-orchestrate/current?topic=agents-adding-orchestration) documentation for an overview of the different approaches including the option to add a collaborator agent from a rich catalog of pre-built agents or from other agents defined on the local instance or even importing an external agent.
+38- No pop-up, selecione **Add from local instance** tile. Para referência, o watsonx Orchestrate oferece suporte a diversas abordagens para adicionar agentes de colaboração. Reserve um minuto para consultar a documentação [Adicionando agentes para orquestração](https://www.ibm.com/docs/en/watsonx/watson-orchestrate/current?topic=agents-adding-orchestration) para obter uma visão geral das diferentes abordagens, incluindo a opção de adicionar um agente de colaboração a partir de um catálogo completo de agentes pré-criados ou de outros agentes definidos na instância local, ou até mesmo importar um agente externo.
 
 ![wxo collaborator agent options](images/wxo-collaborator-agents-options.png) 
 
-39- Select the checkbox next to both, the **Web Search Agent** and the **Financial API Agent** (annotated with red arrows) and click **Add to agent** button (annotated with red oval).
+39- Marque a caixa de seleção ao lado de **Agente de Pesquisa na Web** e **Agente de API Financeira** (anotado com setas vermelhas) e clique no botão **Adicionar ao agente** (anotado com oval vermelho).
 
 ![wxo financial analyst add collaborators](images/wxo-financial-analyst-add-collaborators.png) 
 
-40- Scroll further down to the **Behavior** section or click the **Behavior** shortcut (annotated with red oval) and add the following **Instructions** to guide the agent in its reasoning and orchestration.
+40- Role mais para baixo até o **Behavior** ou clique no atalho do **Behavior**  (anotado com oval vermelho) e adicione as seguintes **Instruções** para orientar o agente em seu raciocínio e orquestração.
 
-Instructions:
+Instruções:
 ```
-You are a Financial Analyst Agent that provides comprehensive financial research and analysis. Your capabilities include:
+Você é um Analista Financeiro que fornece pesquisas e análises financeiras abrangentes. Suas habilidades incluem:
 
-**Stock Analysis:**
-- Get real-time stock price data and historical performance using Yahoo Finance
-- Retrieve comprehensive company information including financial metrics, market data, and business descriptions
-- Access detailed financial statements (income statement, balance sheet, cash flow statement) with both annual and quarterly data
+**Análise de Ações:**
+- Obtenha dados de preços de ações em tempo real e desempenho histórico usando o Yahoo Finanças
+- Obtenha informações abrangentes da empresa, incluindo métricas financeiras, dados de mercado e descrições de negócios
+- Acesse demonstrações financeiras detalhadas (demonstração de resultados, balanço patrimonial, demonstração de fluxo de caixa) com dados anuais e trimestrais
 
-**Research & Information:**
-- Search the web for current financial news, analyst reports, and market insights using DuckDuckGo Search
-- Find definitions of financial terms and company background information using Wikipedia search
-- Provide contextual analysis by combining multiple data sources
+**Pesquisa e Informações:**
+- Pesquise na web por notícias financeiras atuais, relatórios de analistas e insights de mercado usando o Brave Search
+- Encontre definições de termos financeiros e informações básicas da empresa usando a busca na Wikipédia
+- Forneça análises contextuais combinando múltiplas fontes de dados
 
-**TOOL SELECTION GUIDE:**
+**GUIA DE SELEÇÃO DE FERRAMENTAS:**
 
-**GET STOCK INFORMATION tool** - Use for:
-- Current company metrics (P/E ratio, market cap, profit margin, beta)
-- Company fundamentals (sector, industry, business description)
-- Valuation ratios and financial statistics
-- Current stock price with key metrics
-- Company comparisons and analysis
+**Ferramenta OBTER INFORMAÇÕES SOBRE AÇÕES** - Use para:
+- Métricas atuais da empresa (índice P/L, capitalização de mercado, margem de lucro, beta)
+- Fundamentos da empresa (setor, indústria, descrição do negócio)
+- Índices de avaliação e estatísticas financeiras
+- Preço atual da ação com as principais métricas
+- Comparações e análises de empresas
 
-**GET STOCK PRICE DATA tool** - Use for:
-- Historical price performance and trends
-- Time-series analysis (1 day to 10 years)
-- Trading volume and volatility analysis
-- Technical analysis and price patterns
-- Performance over specific time periods
+**Ferramenta OBTER DADOS DE PREÇOS DE AÇÕES** - Use para:
+- Desempenho histórico de preços e tendências
+- Análise de séries temporais (1 dia a 10 anos)
+- Análise de volume de negociação e volatilidade
+- Análise técnica e padrões de preços
+- Desempenho em períodos específicos
 
-**GET FINANCIAL STATEMENTS tool** - Use for:
-- Quarterly/annual financial data (Q1, Q2, Q3, Q4 results)
-- Income statements, balance sheets, cash flow statements
-- Historical financial trends and comparisons
-- Debt analysis, revenue growth, profitability metrics
-- Multi-year financial performance
+**Ferramenta OBTER DEMONSTRAÇÕES FINANCEIRAS** - Use para:
+- Dados financeiros trimestrais/anuais (resultados do 1º, 2º, 3º e 4º trimestres)
+- Demonstrações de resultados, balanços patrimoniais, demonstrações de fluxo de caixa
+- Tendências e comparações financeiras históricas
+- Análise de dívida, crescimento da receita, métricas de lucratividade
+- Desempenho financeiro plurianual
 
-**SEARCH WIKIPEDIA tool** - Use for:
-- Financial term definitions and explanations
-- Educational content about financial concepts
-- Company background and historical information
+**Ferramenta PESQUISAR NA WIKIPEDIA** - Use para:
+- Definições e explicações de termos financeiros
+- Conteúdo educacional sobre conceitos financeiros
+- Histórico e informações históricas da empresa
 
-**Response Guidelines:**
-- For current metrics and ratios, use GET STOCK INFORMATION tool
-- For historical performance analysis, use GET STOCK PRICE DATA tool
-- For quarterly/annual financials, use GET FINANCIAL STATEMENTS tool
-- For definitions and education, use SEARCH WIKIPEDIA tool
-- Always provide data-driven insights with specific metrics when available
-- Cite your sources and indicate when data is real-time vs historical
+**Diretrizes de Resposta:**
+- Para métricas e índices atuais, use a ferramenta OBTER INFORMAÇÕES SOBRE AÇÕES
+- Para análise de desempenho histórico, use a ferramenta OBTER DADOS DE PREÇOS DE AÇÕES
+- Para demonstrações financeiras trimestrais/anuais, use a ferramenta OBTER DEMONSTRAÇÕES FINANCEIRAS
+- Para definições e informações, use a ferramenta PESQUISAR NA WIKIPEDIA
+- Sempre forneça insights baseados em dados com métricas específicas, quando disponíveis
+- Cite suas fontes e indique quando os dados são em tempo real ou históricos
 
-**Enhanced Example Use Cases:**
-- "What is Apple's current P/E ratio?" → Use GET STOCK INFORMATION tool
-- "How did Apple perform over the last 6 months?" → Use GET STOCK PRICE DATA tool
-- "Show me Apple's Q1 2024 results" → Use GET FINANCIAL STATEMENTS tool (with year: 2024, quarter: "Q1")
-- "Compare Apple and Tesla market caps" → Use GET STOCK INFORMATION tool for both companies
-- "Apple's 3-year revenue growth trend" → Use GET FINANCIAL STATEMENTS tool (with years_back: 3)
-- "What is EBITDA margin?" → Use SEARCH WIKIPEDIA tool
-- "Tesla's debt-to-equity ratio over last 3 years" → Use GET FINANCIAL STATEMENTS tool (statement_type: "balance", years_back: 3)
+**Casos de Uso de Exemplo Aprimorados:**
+- "Qual é o índice P/L atual da Apple?" → Use a ferramenta OBTER INFORMAÇÕES SOBRE AÇÕES
+- "Qual foi o desempenho da Apple nos últimos 6 meses?" → Use a ferramenta OBTER DADOS DE PREÇOS DE AÇÕES
+- "Mostre-me os resultados do 1º trimestre de 2024 da Apple" → Use a ferramenta OBTER DEMONSTRAÇÕES FINANCEIRAS (com ano: 2024, trimestre: "1º trimestre")
+- "Compare os valores de mercado da Apple e da Tesla" → Use a ferramenta OBTER INFORMAÇÕES DE AÇÕES para ambas as empresas
+- "Tendência de crescimento da receita da Apple nos últimos 3 anos" → Use a ferramenta OBTER DEMONSTRAÇÕES FINANCEIRAS (com anos_retroativos: 3)
+- "O que é margem EBITDA?" → Use a ferramenta PESQUISA NA WIKIPÉDIA
+- "Índice dívida/patrimônio líquido da Tesla nos últimos 3 anos" → Use a ferramenta OBTER DEMONSTRAÇÕES FINANCEIRAS (statement_type: "balance", years_back: 3)
 
-**Multi-Tool Examples:**
-- "Analyze Apple's performance and valuation" → GET STOCK INFORMATION + GET STOCK PRICE DATA
-- "Compare Q1 results of Apple and Google with P/E ratios" → GET FINANCIAL STATEMENTS + GET STOCK INFORMATION for both
-- "Explain EBITDA and show Microsoft's EBITDA trend" → SEARCH WIKIPEDIA + GET FINANCIAL STATEMENTS
-```
-
-Test the agent behavior in the **Preview** section by asking the following sample question:
-Question: 
-```
-I'm interested in learning more about Meta and Amazon. Based on our internal knowledge, can you please generate a summary about their businesses?
+**Exemplos de ferramentas múltiplas:**
+- "Analisar o desempenho e a avaliação da Apple" → OBTER INFORMAÇÕES SOBRE AÇÕES + OBTER DADOS SOBRE O PREÇO DAS AÇÕES
+- "Comparar os resultados do primeiro trimestre da Apple e do Google com os índices P/L" → OBTER DEMONSTRAÇÕES FINANCEIRAS + OBTER INFORMAÇÕES SOBRE AÇÕES para ambas
+- "Explicar o EBITDA e mostrar a tendência do EBITDA da Microsoft" → PESQUISAR NA WIKIPÉDIA + OBTER DEMONSTRAÇÕES FINANCEIRAS
 ```
 
-Expand the **Show Reasoning** and **Step 1** links to review the reasoning of the agent. Note that it is correctly retreiving information from its knowledge base as it references the **Financial_Analyst_Agent** tool.
+Teste o comportamento do agente na seção **Visualização** fazendo a seguinte pergunta de exemplo:
+Pergunta:
+```
+Tenho interesse em saber mais sobre a Meta e a Amazon. Com base em nosso conhecimento interno, você poderia gerar um resumo sobre os negócios deles?
+```
+
+Expanda os links **Show Reasoning** e **Step 1** para revisar o raciocínio do agente. Observe que ele está recuperando corretamente as informações de sua base de conhecimento, pois faz referência à ferramenta **Financial_Analyst_Agent**.
 
 ![wxo knowledge base test](images/wxo-knowledge-base-test.png) 
 
-41- Continue testing your agent now by stressing the web search agent functionality. To do so, ask the following question.
+41- Continue testando seu agente agora, enfatizando a funcionalidade do agente de busca na web. Para isso, faça a seguinte pergunta:
 
-Question: 
+Pergunta:
 ```
-Who are top executives for Amazon?
+Quem são os principais executivos da Amazon?
 ```
 
-Expand the **Show Reasoning** and **Step 1** links (annotated with red arrows) to observe the agent's reasoning. Note that it transfers the request to **Web Search Agent** as expected (annotated with red oval).
+Expanda os links **Show Reasoning** e **Step 1** (indicado com setas vermelhas) para observar o raciocínio do agente. Observe que ele transfere a solicitação para o **Agente de Pesquisa na Web** conforme o esperado (indicado com um oval vermelho).
 ![wxo topexecs reasoning](images/wxo-topexecs-reasoning.png) 
 
-42- Do some further testing by asking the agent the following question and then expanding the **Show Reasoning** and **Step 1** (annotated with red arrows) to observe the agent reasoning.
-Question:
+42- Faça mais testes perguntando ao agente a seguinte pergunta e, em seguida, expandindo **Mostrar Raciocínio** e **Etapa 1** (indicados com setas vermelhas) para observar o raciocínio do agente.
+Pergunta:
 ```
-what does EBITDA mean?
+O que significa EBITDA?
 ```
 
-Note that it transfers the request to **Financial API Agent** as annotated with red oval.
+Observe que ele transfere a solicitação para o **Agente de API Financeira**, conforme indicado pelo oval vermelho.
 ![wxo reasoning ebitda step1](images/wxo-reasoning-ebitda-step1.png) 
 
-After that, expand **Step 2** (annotated with red arrow) to observe the second step taken by agent, which in this case, involves executing the actual tool, the **Search Wikipedia** tol (annotated with red oval).
+Depois disso, expanda **Step 2** (anotado com seta vermelha) para observar o segundo passo dado pelo agente, que neste caso, envolve a execução da ferramenta real, a ferramenta **Pesquisar na Wikipédia** (anotada com oval vermelho).
 
 ![wxo reasoning ebitda step2](images/wxo-reasoning-ebitda-step2.png) 
 
-43- At this point, you are ready to deploy your **Financial Analyst Agent**. To do so, scroll to the bottom of the configuration page and make sure the slide bar next to **Show agent** (annotated with red arrow) is enabled (green) to make the **Financial Analyst Agent** accessible on the chat interface. Click **Deploy** button (annotated with red arrow) to deploy your agent.
+43- Neste ponto, você está pronto para implementar seu **Agente de Analista Financeiro**. Para isso, role até o final da página de configuração e certifique-se de que a barra deslizante ao lado de **Mostrar agente** (indicada com uma seta vermelha) esteja habilitada (verde) para tornar o **Agente de Analista Financeiro** acessível na interface de chat. Clique no botão **Implementar** (indicado com uma seta vermelha) para implementar seu agente.
 
 ![wxo financial analyst agent deploy](images/wxo-financial-analyst-agent-deploy.png)
 
-*Congratulations!!* You have just developed and deployed the **Financial Analyst Agent** to support financial research analysts at **Blue Aurum Financial** in scaling their investment research and recommendations.
+*Parabéns!!* Você acabou de desenvolver e implantar o **Agente de Analista Financeiro** para dar suporte aos analistas de pesquisa financeira da **Blue Aurum Financial** na ampliação de suas pesquisas e recomendações de investimentos.
 
-## Experience Agents in Action using watsonx Orchestrate Chat UI
+## Experimente os agentes em ação usando a interface de bate-papo do Watsonx Orchestrate
 
-Now that you have deployed your **Financial Analyst Agent**, you can interact with the agent using watsonx Orchestrate Conversational Interface.
+Agora que você implantou seu **Agente de Analista Financeiro**, você pode interagir com o agente usando a Interface Conversacional do Watsonx Orchestrate.
 
-44- Click the top left navigation menu and select **Chat** (annotated with red rectangle) to access the conversational interface.
+44- Clique no menu de navegação superior esquerdo e selecione **Chat** (anotado com retângulo vermelho) para acessar a interface de conversação.
 
 ![wxo chat ui](images/wxo-chat-ui.png)
 
-45- On the **Chat UI**, note that now you have the **Financial Analyst Agent** (annotated with red rectangle) as one of the available agents you can chat with. As you add more and more agents, you can select which agent you'd like to interact with by selecting the agent drop down list (annotated with red arrow).
-With the **Financial Analyst Agent** selected, try interacting by asking the following question and observe the response.
+45- Na interface do **Chat**, observe que agora você tem o **Agente Analista Financeiro** (indicado com um retângulo vermelho) como um dos agentes disponíveis para conversar. À medida que você adiciona mais agentes, pode selecionar com qual agente deseja interagir selecionando a lista suspensa de agentes (indicada com uma seta vermelha).
+Com o **Agente Analista Financeiro** selecionado, tente interagir fazendo a seguinte pergunta e observe a resposta.
 
-Question: 
+Pergunta:
 ```
-I'm interested in learning more about Meta and Amazon. Based on our internal knowledge, can you please generate a summary about their businesses?
+Tenho interesse em saber mais sobre a Meta e a Amazon. Com base em nosso conhecimento interno, você poderia gerar um resumo sobre os negócios deles?
 ```
 ![wxo chat q1](images/wxo-chat-q1.png)
 
-46- Expand the **Show Reasoning** and **Step 1** sections (annotated with red arrows) to investigate the agent's reasoning in retrieving the response. In this case, the agent leverages its knowledge base to respond.
+46- Expanda o **Show Reasoning** e **Step 1**  (indicado com setas vermelhas) para investigar o raciocínio do agente ao recuperar a resposta. Nesse caso, o agente utiliza sua base de conhecimento para responder.
 
 ![wxo chat q1 reasoning](images/wxo-chat-q1-reasoning.png)
 
-47- Next, ask the following question to get a list of top executives at Amazon.
-Question:
+47- Em seguida, faça a seguinte pergunta para obter uma lista dos principais executivos da Amazon.
+Pergunta:
 ```
-Who are the top executives at Amazon?
+Quem são os principais executivos da Amazon?
 ```
 ![wxo chat q2](images/wxo-chat-q2.png)
 
-Again, expand the **Show Reasoning** and **Step 1** sections (annotated with red arrows) to investigate the agent's reasoning in retrieving the response. In this case, the agent leverages the **Web Search Agent** to retrieve the response.
+Novamente, expanda o **Show Reasoning** e **Step 1** (indicado com setas vermelhas) para investigar o raciocínio do agente ao recuperar a resposta. Nesse caso, o agente utiliza o **Agente de Pesquisa na Web** para recuperar a resposta.
 
 ![wxo chat q2 reasoning](images/wxo-chat-q2-reasoning.png)
 
-48- Next, try another question to retrieve a glossary definition for the diluted earnings per share that was returned in the first reply.
-Question:
+48- Em seguida, tente outra pergunta para obter uma definição do glossário para o lucro diluído por ação, que foi retornada na primeira resposta.
+Pergunta:
 ```
-can you define the glossary financial term of 'Diluted earnings per share'?
+Você pode definir o termo financeiro do glossário "Lucro diluído por ação"?
 ```
 
-Expand the **Show Reasoning** section and observe that the agent took 3 steps (annotated with red rectangle) to retrieve the response for this question.
+Expanda o **Show Reasoning** e observe que o agente deu 3 passos (anotados com retângulo vermelho) para recuperar a resposta para esta pergunta.
 ![wxo chat q3](images/wxo-chat-q3.png)
 
-49- Now, let's try to explore what are the steps taken.
-Expand the **Step1**, **Step 2**, and **Step 3** sections and observe the agent transferring the request to the **Financial API Agent** to provide a definition to the financial term 'Diluted earnings per share'.
+49- Agora, vamos tentar explorar quais são as etapas executadas.
+Expanda as seções **Step1**, **Step2** e **Step3** e observe o agente transferindo a solicitação ao **Agente da API Financeira** para fornecer uma definição para o termo financeiro 'Lucro por ação diluído'.
 
 ![wxo chat q3 reasoning 1](images/wxo-chat-q3-reasoning-1.png)
 
 ![wxo chat q3 reasoning 2](images/wxo-chat-q3-reasoning-2.png)
 
-Feel free to explore and experience the power of Agents in action! 🚀 
+Sinta-se à vontade para explorar e experimentar o poder dos Agentes em ação! 🚀 
 
-## Conclusion
-**Congratulations** on completing the hands-on lab portion of the bootcamp. 
+## Conclusão
+**Parabéns** por concluir a parte prática do bootcamp.
 
-To recap, you have used watsonx Orchestrate no-code functionality to develop a **Financial Analyst Agent** skilled at helping financial research analysts accelerate their research and due diligence in identifying new investment opportunities. You then added knowledge to the agent by uploading knowledge documents in the form of pdf files capturing earning reports.
+Recapitulando, você utilizou a funcionalidade sem código do watsonx Orchestrate para desenvolver um **Agente de Analista Financeiro** especializado em ajudar analistas de pesquisa financeira a acelerar suas pesquisas e due diligence na identificação de novas oportunidades de investimento. Em seguida, você adicionou conhecimento ao agente, enviando documentos de conhecimento em formato PDF com relatórios de ganhos.
 
-Next, you augrmented the **Financial Analyst Agent** capabilities by developing two other agents, the **Web Search Agent** and the **Financial API Agent** which are empowered with tools to execute web search queries and also retrieve information from internal APIs and glossary definition tools.
-These tools and agents help increase the power of the **Financial Analyst Agent** in providing timely research results to the analysts.
+Em seguida, você aprimorou os recursos do **Agente de Analista Financeiro** desenvolvendo dois outros agentes, o **Agente de Pesquisa na Web** e o **Agente de API Financeira**, que possuem ferramentas para executar consultas de pesquisa na web e também recuperar informações de APIs internas e ferramentas de definição de glossário.
+Essas ferramentas e agentes ajudam a aumentar o poder do **Agente de Analista Financeiro** no fornecimento de resultados de pesquisa em tempo hábil aos analistas.
