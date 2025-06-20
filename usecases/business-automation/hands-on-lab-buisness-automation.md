@@ -1,225 +1,226 @@
-# 👨🏻‍💻 Use case: Business Automation   
+# 👨🏻‍💻 Caso de uso: Automação de negócios
 
-## Table of Contents
-- [Architecture](#-architecture)
-- [Use Case Description](#use-case-description)
-- [Pre-requisites](#pre-requisites)
-- [Agent Lab - watsonx.ai](#agent-lab---watsonxai)
-  - [Comparison Agent](#comparison-agent)
+## Índice
+- [Arquitetura](#-architecture)
+- [Descrição do caso de uso](#use-case-description)
+- [Pré-requisitos](#pre-requisites)
+- [Laboratório de Agentes - watsonx.ai](#agent-lab---watsonxai)
+  - [Agente de comparação](#comparison-agent)
     - [Setup](#setup)
-    - [Configuration](#configuration)
+    - [Configuração](#configuration)
     - [Tools](#tools)
-    - [Saving and Deploying](#saving-and-deploying)
-- [Integrating watsonx.ai's agent as an External Agent in watsonx Orchestrate](#integrating-watsonxais-agent-as-an-external-agent-in-watsonx-orchestrate)
-- [Orchestrate Agent](#orchestrate-agent)
+    - [Salvando e implantando](#saving-and-deploying)
+- [Integrando o agente do watsonx.ai como um agente externo no watsonx Orchestrate](#integrating-watsonxais-agent-as-an-external-agent-in-watsonx-orchestrate)
+- [Agente orquestrate](#orchestrate-agent)
   - [Product Agent](#product-agent)
-- [Experience Agents in Action](#experience-agents-in-action)
+- [Experimente agentes em ação](#experience-agents-in-action)
 
 
-## 🏛 Architecture  
+## 🏛 Arquitetura  
 
 <img width="900" alt="image" src="assets/Business_Automation_Architecture.png">
 
 ## Use Case Description
 
-The sales department of ABC Motor Corp, an automotive large player, when preparing sales proposals, they were spending a lot of time understanding the features of competing products and comparing them with their own products. ABC Motor Corp, needs an automated competitive analysis system to help their sales teams quickly identify and position their products against competitors. Traditionally, gathering competitor insights required extensive manual research, making it inefficient and prone to outdated information. Therefore, the goal of this use case is to create an AI enabled system that support the customer's competitive analysis and market research.
+O departamento de vendas da ABC Motor Corp, uma grande empresa automotiva, ao preparar propostas de vendas, dedicava muito tempo para entender as características dos produtos concorrentes e compará-los com os seus próprios produtos. A ABC Motor Corp precisa de um sistema automatizado de análise competitiva para ajudar suas equipes de vendas a identificar e posicionar seus produtos rapidamente em relação aos concorrentes. Tradicionalmente, a coleta de insights sobre a concorrência exigia extensa pesquisa manual, o que a tornava ineficiente e propensa a informações desatualizadas. Portanto, o objetivo deste caso de uso é criar um sistema habilitado para IA que suporte a análise competitiva e a pesquisa de mercado do cliente.
 
 ## Pre-requisites
 
-- Check with your instructor to make sure **all systems** are up and running before you continue.
-- Please go the through the [environment-setup](/environment-setup) guide for steps on API key creation, project setup, and related configurations.
-- If you're an instructor running this lab, check the **Instructor's guides** to set up all environments and systems.
+- Verifique com seu instrutor se **todos os sistemas** estão funcionando antes de continuar.
+- Consulte o guia [environment-setup](/environment-setup) para obter as etapas de criação da chave de API, configuração do projeto e configurações relacionadas.
+- Se você for um instrutor que ministra este laboratório, consulte os **Guias do instrutor** para configurar todos os ambientes e sistemas.
 
 ## Agent Lab - watsonx.ai
 
->**Note:** Before starting the Agent creation, ensure you have generated your API key of watsonx.ai instance. 
+>**Observação:** Antes de iniciar a criação do agente, certifique-se de ter gerado sua chave de API da instância watsonx.ai.
 
-We will create one agent **Comparison Agent** in watsonx.ai's Agent Lab as part of this setup:  
+Criaremos um agente **Agente de Comparação** no Laboratório de Agentes do watsonx.ai como parte desta configuração:
 
-From the Home page of Agent Lab, click on the Build an AI agent to automate tasks
+Na página inicial do Laboratório de Agentes, clique em Criar um agente de IA para automatizar tarefas.
 
 ![Home page](assets/agent_lab_home.png) 
 
-Let's start the **Comparison Agent**. 
+Vamos iniciar o **Agente de Comparação**.
 
-### Comparison Agent  
+### Agente de Comparação
 #### Setup  
-1. Enter a **name** for the agent as shown in the image.
-2. Add a **description** (optional).
+1. Digite o nome do agente:  Agente de comparação 
+2. Adicione a Descrição
 ```
-The agent compares the given data with additional information gathered from Google search results.
+O agente compara os dados fornecidos com informações adicionais coletadas dos resultados de pesquisa do Google.
 ```
 ![Setup](assets/config_CA.png)  
 
-#### Configuration    
-1. Choose **LangGraph** as the framework.  
-2. Select **ReAct** as the architecture. 
-3. Enter the **Instructions** as shown in the image. These instructions guide your agent on what tasks it should perform. You can use below prompt for it.
+#### Configuração
+1. Escolha **LangGraph** como framework.
+2. Selecione **ReAct** como arquitetura.
+3. Insira as **Instruções** conforme mostrado na imagem. Essas instruções orientam seu agente sobre quais tarefas ele deve executar. Você pode usar o prompt abaixo para isso.
 ```
-You are an expert of automobile industry combining given details present in your context window.  Your task is crawl and search the Top 3 product URLs (strictly from the automobile industry) and to analyse and compare products on the following features strictly: Range, Pricing, Acceleration, Top Speed, Interior and Safety Features If a feature is not applicable, mark it as N/A. Additionally, perform a SWOT analysis of top products (Strengths, Weaknesses, Opportunities, and Threats) Present the comparison in 3 tables one for the comparison , second for the rating numerical rating (X/5) and a star rating (★ out of ★★★★★) for each feature  and  third for the SWOT analysis. Give heading to each table . After every table give two divider.
-Instructions:
-1. When asked for competitors of the given product, make sure that you provide only the name of the products and URLs of the products below the corresponding name.
-2. The generated product URLs must be strictly from the automobile industry.
-3. Title for Table 1: Feature Comparison
-4. Title for Table 2: Rating Comparison
-5. Make sure that the Rating Comparison table has both the numerical(X/5) and star rating(★ out of ★★★★★)
-6. The products should be the column names in all the tables.
-7. The font of the Table Title must be bold and the font size must be 40% bigger as compared to the rest of the text.
-8. Add appropriate space between each section in the table.
-9. Name the References as Competitors
+Você é um especialista na indústria automobilística, combinando os detalhes fornecidos na sua janela de contexto. Sua tarefa é rastrear e pesquisar as 3 principais URLs de produtos (exclusivamente da indústria automobilística) e analisar e comparar produtos com base nos seguintes recursos: Alcance, Preço, Aceleração, Velocidade Máxima, Interior e Recursos de Segurança. Se um recurso não for aplicável, marque-o como N/A. Além disso, realize uma análise SWOT dos principais produtos (Forças, Fraquezas, Oportunidades e Ameaças). Apresente a comparação em 3 tabelas: uma para a comparação, a segunda para a classificação numérica (X/5) e uma classificação por estrelas (★ de ★★★★★) para cada recurso e a terceira para a análise SWOT. Dê um título a cada tabela. Após cada tabela, forneça dois divisores.
+Instruções:
+1. Quando solicitado a informar os concorrentes do produto em questão, certifique-se de fornecer apenas o nome dos produtos e os URLs dos produtos abaixo do nome correspondente.
+2. As URLs dos produtos gerados devem ser estritamente da indústria automobilística.
+3. Título da Tabela 1: Comparação de Recursos
+4. Título da Tabela 2: Comparação de Avaliações
+5. Certifique-se de que a tabela de Comparação de Avaliações contenha a classificação numérica (X/5) e a classificação por estrelas (★ de ★★★★★).
+6. Os produtos devem ser os nomes das colunas em todas as tabelas.
+7. A fonte do Título da Tabela deve estar em negrito e o tamanho da fonte deve ser 40% maior em comparação com o restante do texto.
+8. Adicione o espaço apropriado entre cada seção da tabela.
+9. Nomeie as Referências como Concorrentes.
 ```
 ![Configuration](assets/config_CA_2.png)  
 
 
-> **Note:** The Google Search Tool is added by default to the Agent. However, if you accidentally click the delete icon, follow the Tool steps below. Otherwise, you can skip this.
+> **Observação:** A ferramenta de busca do Google é adicionada por padrão ao Agente. No entanto, se você clicar acidentalmente no ícone de exclusão, siga as etapas da ferramenta abaixo. Caso contrário, você pode pular esta etapa.
 
 #### Tools  
 
-1. Click on the Add Tool.
+1. Clique em Add Tool.
 ![Add Tool](assets/add_tool.png)
 
-2. Select **Google Search** as the tool to gather data.  
+2. Selecione **Pesquisa Google** como ferramenta para coletar dados.
 ![Tool](assets/tool_link_search_agent.png)  
 
 #### Saving and Deploying
 Once the agent is created.
 
-1. Click on the **Save As** button to save your Agent
-2. click on the **Deploy** button to deploy the agent.
+1. Clique no botão **Salvar como** para salvar seu agente
+2. Clique no botão **Implantar** para implantar o agente.
 ![Comparison Agent 1](assets/config_CA_3.png) 
-3. After clicking on the save as button select Agent (marked as 1) and Click Save ((marked as 2))
+3. Após clicar no botão salvar como, selecione Agente (marcado como 1) e clique em Salvar ((marcado como 2))
 ![Comparison Agent 2](assets/config_CA_4.png)
-4. Once you click on deploy, you need to create a user api key.  Click on "Create".
+4. Após clicar em "Implementar", você precisa criar uma chave de API de usuário. Clique em "Create".
 ![Comparison Agent 3](assets/image44.0.1.png)
-5. You'll be directed to another webpage. Click on "Create a key".
+5. Você será direcionado para outra página da web. Clique em "Create a key".
 ![Comparison Agent 4](assets/image44.0.2.png)
-6. Once a key is created, navigate back to deployment page. Click on "Reload".
+6. Após criar a chave, volte para a página de implantação. Clique em "Reload".
 ![Comparison Agent 4](assets/image44.1.png)
-7. After clicking the deployment button make sure your Targeted deployment space has been selected and completed if not please select it.(marked as 1), click Deploy to deploy the agent (marked as 2)
+7. Após clicar no botão de implantação, certifique-se de que seu espaço de implantação direcionado foi selecionado e concluído; caso contrário, selecione-o (marcado como 1). Clique em Implantar para implantar o agente (marcado como 2).
 ![Comparison Agent 5](assets/config_CA_5.png)
 
-> **YOU DID IT! you just created and deployed your first AI Agent.**
-> Now let's build more agents and integrate them together.
+> **VOCÊ CONSEGUIU! Você acabou de criar e implantar seu primeiro Agente de IA.**
+> Agora vamos construir mais agentes e integrá-los.
 
-## Integrating watsonx.ai's agent as an External Agent in watsonx Orchestrate
+## Integrando o agente do watsonx.ai como um Agente Externo no watsonx Orchestrate
 
 To deploy your agent on Orchestrate, follow the steps below: 
 
-1. Go to the homepage of watsonx.ai Agent Lab.
+1. Acesse a página inicial do watsonx.ai Agent Lab.
 ![Home page](assets/agent_lab_homepage.png)
 
-2. Click on the hamberger menu and select **Deployments**.  
+2. Clique no menu do hambúrguer e selecione **Deployments**.  
 ![Deployments](assets/hamberger_agent_lab.png)
 
-3. Click on the **Spaces** tab and select the space where you deployed the agent.  
+3. Clique na aba **Spaces** e selecione o espaço onde você implantou o agente.
 ![Spaces](assets/ca_dep.png)
 
-4. Click on the **Assets** tab and select the agent.  
+4. Clique na aba **Assets** e selecione o agente.  
 ![Asset tab](assets/ca_dep2.png)
 
-5. Then you will go the the main deployment page select your agent from the list.
+5. Em seguida, você irá para a página principal de implantação e selecionará seu agente na lista.
 ![Deployment agent](assets/ca_dep3.png)
 
-6. Then copy the public endpoint stream one.
+6. Em seguida, copie o fluxo de ponto de extremidade público um.
 ![Deployment agent](assets/ca_url.png)
 
-Then let's go to Orchestrate and create other agent and import this agent in that.
+Então vamos ao Orchestrate e criar outro agente e importar este agente para ele.
 
 ## Orchestrate Agent
 
-In Orchestrate, we will create our main agent, as outlined below:
+No Orchestrate, criaremos nosso agente principal, conforme descrito abaixo:
 
 ### Product Agent
 
-1. Go to the Orchestrate home page, click on the hamburger menu (☰), select Build, and then choose Agent Builder.
+1. Acesse a página inicial do Orchestrate, clique no menu de hambúrguer (☰), selecione Build, e depois Agent Builder.
 ![Agent Builder](assets/agent_build_wxo.png)
 
-2. Click on the Create Agent button.
+2. Cicar no botão Create Agent .
 ![Create Agent](assets/create_wxo.png)
 
-3. Select Create from scratch (as shown in image 1 below), enter your agent’s name (as shown in image 2), provide a description (as shown in image 3), and then click the Create button (as shown in image 4).
+3. Selecione Criar do zero (como mostrado na imagem 1 abaixo), insira o nome do seu agente (como mostrado na imagem 2), forneça uma descrição (como mostrado na imagem 3) e clique no botão Criar (como mostrado na imagem 4).
 
-   For Product Agent use the below description
-        
+Nome: Agente de Produtos
+
+Descrição:
    ```
-   This agent is designed to search for a specified product and retrieve its details and features using Retrieval-Augmented Generation (RAG) on the product catalog. It presents the information in a clear and structured format, ensuring systematic organization of key product data, making it easy to understand and use.
+Este agente foi projetado para pesquisar um produto específico e recuperar seus detalhes e características usando a Geração Aumentada de Recuperação (RAG) no catálogo de produtos. Ele apresenta as informações em um formato claro e estruturado, garantindo a organização sistemática dos principais dados do produto, facilitando a compreensão e o uso.
    ```
    ![Create from scratch](assets/product_scratch.png)
 
-4. After the agent is created, navigate to the Agent Configuration page.
+4. Após a criação do agente, navegue até a página Configuração do agente.
 
-   **Description:**
+   **Descrição:**
    ```
-   Your knowledge base is the document that contains all the product-related information. All queries related to the product will be addressed using this document as the primary source.
+  Sua base de conhecimento é o documento que contém todas as informações relacionadas ao produto. Todas as dúvidas relacionadas ao produto serão abordadas usando este documento como fonte primária.
    ```
    ![Knowledge](assets/product_knowledge.png)
 
-5. Scroll down to the Knowledge section, then in the Document section, click on the Upload file button and upload [the product catalog](./assets/ABC_Motor_Product_Catalog.pdf).
+5. Role para baixo até a seção Conhecimento e, na seção Documento, clique no botão Carregar arquivo e carregue [o catálogo de produtos](anexos/businessautomation/ABC_Motor_Product_Catalog.pdf).
 ![Upload file](assets/upload_file.png)
 
-6. Scroll down to the Toolset section, then in the Agents section click on the Add Agent button.
+6. Role para baixo até a seção Conjunto de ferramentas e, na seção Agentes, clique no botão Adicionar agente.
 ![Add Agent](assets/add_agent_pa.png)
 
-7. From the pop-up menu, select the Import.
+7. No menu pop-up, selecione Importar.
 ![Add from local instance](assets/import_ca.png)
 
-> **Note:** : We are now adding the Comparison Agent (an external agent) to the Product Agent, enabling it to delegate tasks to them.
+> **Observação:** agora estamos adicionando o Agente de Comparação (um agente externo) ao Agente de Produto, permitindo que ele delegue tarefas a eles.
 
-8. On the next page, ensure that External Agent is selected (as shown in image 1 below). If it’s not already selected, please choose it, then click the Next button (as shown in image 2).
+8. Na próxima página, certifique-se de que a opção Agente Externo esteja selecionada (como mostrado na imagem 1 abaixo). Se ainda não estiver selecionada, selecione-a e clique no botão Avançar (como mostrado na imagem 2).
 ![Select External Agent](assets/external_agent_select.png)
 
-9. On the next page, enter the following information:
-      1. Provide: From the drop down select watsonx.ai.
+9. Na próxima página, insira as seguintes informações:
+      1. Fornecer: No menu selecione watsonx.ai.
       2. API key: Enter the watsonx.ai API key.
-      3. Service instance URL: Enter the public endpoint URL of the agent that we copied in step 6.
-      4. Display name: Enter the name of the agent.
+      3. Service instance URL: Insira a URL do ponto de extremidade público do agente que copiamos na etapa 6.
+      4. Display name: Agente_de_comparacao_v1
       5. Description: Enter the below description.
-      6. Click on the Import Agent button.
+      6. Clique no botão Agente de importação.
 
 **Description:**
    ```
-   This agent is designed to search for competitive URLs of input product and compare the given compare the given data with additional information gathered from Google search results. Its task is to carefully analyze the input data, extract key insights, and identify both differences and similarities. The findings should be presented in a well-structured table format, making it easy to understand and compare the information at a glance.
-
+   Este agente foi projetado para pesquisar URLs concorrentes do produto de entrada e comparar os dados fornecidos com informações adicionais coletadas nos resultados de pesquisa do Google. Sua tarefa é analisar cuidadosamente os dados de entrada, extrair insights importantes e identificar diferenças e semelhanças. Os resultados devem ser apresentados em um formato de tabela bem estruturado, facilitando a compreensão e a comparação das informações rapidamente.
    ```
    ![External Agent](assets/external_agent_setup.png)
 
-10. Once the delegated agents are added, they will appear as shown in the image below.
+10. Depois que os agentes delegados forem adicionados, eles aparecerão conforme mostrado na imagem abaixo.
 ![Delegation Agent](assets/agent_appear_delegation.png)
 
-11. Scroll down to the Behavior section, add the description shown in image as 1, and then click the Deploy button as shown in image as 2.
+11. Role para baixo até a seção Behavior, adicione a descrição mostrada na imagem como 1 e clique no botão Implantar, conforme mostrado na imagem como 2.
 
-      For Product Agent use the below description in Behavior Section.
+      Para o Agente do Produto, use a descrição abaixo na Seção Behavior.
 
       ```
-      This agent is responsible for handling product-related queries using Retrieval-Augmented Generation (RAG) on the product catalog.
-      For general product queries, it retrieves structured information directly from the knowledge base.
-      For queries involving URLs or web references or comparison, it delegates the task to the Comparison Agent.
+      Este agente é responsável por lidar com consultas relacionadas a produtos usando a Geração Aumentada de Recuperação (RAG) no catálogo de produtos.
+      Para consultas gerais sobre produtos, ele recupera informações estruturadas diretamente da base de conhecimento.
+      Para consultas que envolvem URLs, referências da web ou comparação, ele delega a tarefa ao Agente de Comparação.
+
       ```
       ![Behavior](assets/Product_agent_deploy.png)
 
-> **Note:** : The Product Agent is now ready to handle product-related queries, delegating tasks to the Link Search Agent and Comparison Agent as needed.
+> **Observação:** o Agente de Produto agora está pronto para lidar com consultas relacionadas ao produto, delegando tarefas ao Agente de Pesquisa de Links e ao Agente de Comparação, conforme necessário.
 
-## Experience Agents in Action
-Follow the steps above, then try interacting with the use case using these sample queries:
+## Experimente agentes em ação
+Siga os passos acima e tente interagir com o caso de uso usando estas consultas de exemplo:
 
-1. Product Agent
+1. Agente de Produto
 
-   Ask the following questions to get responses from the Product Agent:
-   ```
-   Q1: What are the products of ABC Motors.
-   ```
-   ```
-   Q2: Give me the info of Zenith X3.
-   ```
+Faça as seguintes perguntas para obter respostas do Agente de Produto:
+```
+P1: Quais são os produtos da ABC Motors?
+```
+```
+P2: Dê-me as informações do Zenith X3.
+```
    ![Product Agent Response](assets/chat_1.png)  
 
-3. Comparison Agent
+3. Agente de comparação
 
-   To compare the retrieved data, ask:
-   ```
-   Give me URLs of the competitors of the above product and show me the comparison as well.
-   ```
+Para comparar os dados recuperados, pergunte:
+```
+Forneça-me as URLs dos concorrentes do produto acima e mostre-me também a comparação.
+```
    ![Comparison Agent Response](assets/chat_2.png)  
    ![Comparison Agent Response 2](assets/chat_3.png)
 
-Now, explore and experience the power of Skills & Agents in action! 🚀 
+Agora, explore e experimente o poder das Habilidades e Agentes em ação!🚀 
