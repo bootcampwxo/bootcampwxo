@@ -44,3 +44,8 @@ Este sistema aproveita o poder combinado de um agente do watsonx Orchestrate e d
 <img width="900" alt="image" src="assets/Business_Automation_Architecture.png">
 
 Este caso de uso utiliza as capacidades de um agente do watsonx Orchestrate para extrair informações específicas dos produtos (como nomes e características) do catálogo de produtos e realizar comparações de produtos. Esses agentes são apoiados por um agente especializado desenvolvido no Agent Lab do watsonx.ai, e todos estão integrados dentro do watsonx Orchestrate. Por meio do assistente de chat do watsonx Orchestrate, os agentes colaboram
+
+## 📝 Laboratório Prático Passo a Passo
+Você encontra instruções passo a passo aqui:
+
+[Guia prático passo a passo](./hands-on-lab-buisness-automation.md)
