@@ -36,9 +36,9 @@ Embora estejamos apresentando um exemplo completo e funcional, você também dev
 
 ## watsonx Orchestrate
 
-As shown in the [Solution Architecture](./images/Intelligent%20Assistant%20Architecture.jpeg), Construiremos e implantaremos a maioria dos agentes para a solução no Watsonx Orchestrate.
+Conforme mostrado na [Arquitetura da Solução](images/Intelligent%20Assistant%20Architecture.jpeg), Construiremos e implantaremos a maioria dos agentes para a solução no Watsonx Orchestrate.
 
-Para acessar o console do Watsonx Orchestrate, acesse[Lista de recursos na página inicial do IBM Cloud](https://cloud.ibm.com/resources).
+Para acessar o console do Watsonx Orchestrate, acesse [Lista de recursos na página inicial do IBM Cloud](https://cloud.ibm.com/resources).
 
 ![alt text](images/image52.png)
 
