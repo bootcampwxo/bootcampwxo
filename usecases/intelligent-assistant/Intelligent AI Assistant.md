@@ -1,142 +1,144 @@
-# Use case: Intelligent AI Assistant
+# Caso de Uso: Assistente de IA Inteligente
 
-## Table of Contents
+## Índice
 
-- [Use case: Intelligent AI Assistant](#use-case-intelligent-ai-assistant)
-  - [Table of Contents](#table-of-contents)
-  - [Introduction](#introduction)
-    - [Pre-requisites](#pre-requisites)
+- [Caso de uso: Assistente de IA inteligente](#use-case-intelligent-ai-assistant)
+  - [Índice](#table-of-contents)
+  - [Introdução](#introduction)
+    - [Pré-requisitos](#pre-requisites)
   - [watsonx Orchestrate](#watsonx-orchestrate)
-    - [The watsonx Orchestrate console](#the-watsonx-orchestrate-console)
-    - [AI Agent Configuration](#ai-agent-configuration)
-    - [The Dock Status Agent](#the-dock-status-agent)
-    - [The Surplus Agent](#the-surplus-agent)
-    - [The Secretary Agent](#the-secretary-agent)
-    - [The Traffic Agent](#the-traffic-agent)
-    - [The Warehouse Manager Agent](#the-warehouse-manager-agent)
-  - [Summary](#summary)
+    - [O console Watsonx Orchestrate](#the-watsonx-orchestrate-console)
+    - [Configuração do Agente AI](#ai-agent-configuration)
+    - [O agente de status do Dock](#the-dock-status-agent)
+    - [O Agente Excedente](#the-surplus-agent)
+    - [O agente secretário](#the-secretary-agent)
+    - [O Agente de Trânsito](#the-traffic-agent)
+    - [O Agente Gerente de Armazém](#the-warehouse-manager-agent)
+  - [Resumo](#summary)
 
-## Introduction
-This use case describes a scenario where a user leverages an AI agent via chat / natural language interface, to help with the execution of tasks that require the selection of the right agent to satisfy each request.
-Agents can be configured in the system to address specific needs of the organization. Based on the descriptions given, these agents will be selected if they satisfy the task at hand.
+## Introdução
+Este caso de uso descreve um cenário onde um usuário utiliza um agente de IA via chat/interação em linguagem natural para auxiliar na execução de tarefas que exigem a seleção do agente adequado para cada solicitação.
+Agentes podem ser configurados no sistema para atender a necessidades específicas da organização.
 Each agent, in turn, is connected with a Large Language Model (LLM) that supports function calling, so that it can leverage one or more tools, again based on each tool's description.
 
-In our scenario, we will build agents for Dock Status, Surplus Handling, Secretary functions and finally Traffic information, all connected to a "routing agent" that will take requests from the end user and then select the appropriate agent for excecution before returning the answer. The flow of interacion we are simulating is one where a Warehouse Manager is asking for dock status, requests for recommendations on the handling of any surplus product, notifies the right set of stakeholders and also keeps an eye on the traffic around the warehouse.
+No nosso cenário, construiremos agentes para Status da Doca, Manuseio de Excedente, funções de Secretário e informações de Trânsito — todos conectados a um agente roteador.
 
 There is an argument to be made that a truly agentic solution would show a high degree of autonomy. To address a particular problem, or ask, an agentic solution will make a plan, execute this plan, check its effectiveness towards a good outcome, and possibly revise the plan as needed, all in an automated fashion and without human intervention. Applying that to the flow described above, we can simply take out the "human in the loop", by letting the system analyze the status of the dock, decide what to do with surplus product, notify stakeholders of the decision (say, return surplus to original warehouse), and update systems of record. At the same time, we can have a "human in the loop", whereby the Warehouse Manager invokes every step along the way, checking the response from the respective agent to ensure the right progression.
 
 <div style="border: 2px solid black; padding: 10px;">
-Even though we will take you through a complete and working example, you should also consider making changes that fit your desired use case, and only take this description as a reference point that guides you along your own implementation.
+Embora estejamos apresentando um exemplo completo e funcional, você também deve considerar fazer alterações que se ajustem ao seu caso de uso desejado e usar esta descrição apenas como um ponto de referência para guiá-lo em sua própria implementação.
 </div>
 
-### Pre-requisites
+### Pré-requisitos
 
-- Check with your instructor to make sure **all systems** are up and running before you continue.
+- Verifique com seu instrutor para ter certeza de que **todos os sistemas** estejam funcionando antes de continuar.
 - If you're an instructor running this lab, check the **Instructor's guides** to set up all environments and systems.
 
 ## watsonx Orchestrate
 
-As shown in the [Solution Architecture](./images/Intelligent%20Assistant%20Architecture.jpeg), we will build and deploy the majority of the agents for the solution in watsonx Orchestrate.
+As shown in the [Solution Architecture](./images/Intelligent%20Assistant%20Architecture.jpeg), Construiremos e implantaremos a maioria dos agentes para a solução no Watsonx Orchestrate.
 
-To get to the watsonx Orchestrate console, go the [Resources list on the IBM Cloud homepage](https://cloud.ibm.com/resources).
+Para acessar o console do Watsonx Orchestrate, acesse[Lista de recursos na página inicial do IBM Cloud](https://cloud.ibm.com/resources).
 
 ![alt text](images/image52.png)
 
-Expand the `AI / Machine Learning` section and select the resource that has `watsonx Orchestrate` in the Product column, as shown above. Next, click on the `Launch watsonx Orchestrate` button.
+Expanda a seção `AI / Machine Learning` e selecione o recurso que possui `watsonx Orchestrate` na coluna Produto, conforme mostrado acima. Em seguida, clique no botão `Launch watsonx Orchestrate`.
 
 ![alt text](images/image1.png)
 
-This opens the watsonx Orchestrate console.
+Isso abre o console do watsonx Orchestrate.
 
 ![alt text](images/image2.png)
 
-### The watsonx Orchestrate console
+### O console do watsonx Orchestrate
 
-> When opening the console for the very first time, you may be greeted by a pop-up window offering that you create your first agent. Click on `Skip for now`.
+> Ao abrir o console pela primeira vez, você poderá ser recebido por uma janela pop-up solicitando a criação do seu primeiro agente. Clique em `Skip for now`.
 
 ![alt text](images/image31.png)
 
-In the console, it shows that no agents have been deployed yet. Thus, if you interact with watsonx Orchestrate at this point, not much will happen, since the system has no agents available to route any request to.
+No console, é mostrado que nenhum agente foi implantado ainda. Portanto, se você interagir com o Watsonx Orchestrate neste momento, não acontecerá muita coisa, pois o sistema não tem agentes disponíveis para encaminhar qualquer solicitação.
 
-However, you can already interact with the Large Language Model (LLM) that works behind the scenes, and ask general questions, like "How are you today?" or "What is the capital of France?". 
+No entanto, você já pode interagir com o Large Language Model (LLM), que funciona nos bastidores, e fazer perguntas gerais, como "Como você está hoje?" ou "Qual é a capital da França?".
 
 ![alt text](images/image3.png)
 
-Go ahead and chat with watsonx Orchestrate to explore what type of answers it gives to your questions.
+Vá em frente e converse com o watsonx Orchestrate para explorar que tipo de respostas ele dá às suas perguntas.
 
-### AI Agent Configuration
-We are now ready to build the first agent. In the watsonx Orchestrate console, click on either `Create or Deploy` or `Create new agent` (either will goet you to he same place).
+### Configuração do Agente de IA
+Agora estamos prontos para construir o primeiro agente. No console do Watsonx Orchestrate, clique em `Criar ou Implantar` ou `Criar novo agente` (ambos os comandos levarão você ao mesmo lugar).
 
 ![alt text](images/image4.png)
 
-### The Dock Status Agent
-In the following screen, you can select if you want to create the new agent from scratch or from a template, and give it a name and a description.
-To create the solution, you will need to create a number of agents and we will go through them one by one, starting with the `Dock Status` agent. Let's start by giving it a name  and a description:
-- Name: Dock Status Agent
-- Description: 
+### O Agente de Status da Doca
+Na tela seguinte, você pode selecionar se deseja criar o novo agente do zero ou a partir de um modelo, e atribuir um nome e uma descrição a ele.
+Para criar a solução, você precisará criar vários agentes, e nós os analisaremos um por um, começando pelo agente `Status da Doca`. Vamos começar atribuindo um nome e uma descrição:
+- Nome: Agente de status de doca
+- Descrição:
 ```
-The Dock Status Agent specializes in answering inquiries about current warehouse dock status. It has access to detailed and up-to-date data about which trucks are loading and unloading at docks, and information about the products they carry, and return detailed textual information about this data to the user.
+O Agente de Status de Doca é especializado em responder a perguntas sobre o status atual das docas do armazém. Ele tem acesso a dados detalhados e atualizados sobre quais caminhões estão carregando e descarregando nas docas, além de informações sobre os produtos que transportam, e retorna informações textuais detalhadas sobre esses dados ao usuário.
 ```
 
-Note that in the world of AI Agents, these descriptions are not merely used as documentation, they are also used in making decisions about selecting the right agent for the job, so what you enter into this field is important.
+Observe que, no mundo dos Agentes de IA, essas descrições não são usadas apenas como documentação, mas também na tomada de decisões sobre a seleção do agente certo para o trabalho. Portanto, o que você inserir neste campo é importante.
 
-After you have entered the required information, click on `Create`.
+Após inserir as informações necessárias, clique em `Create`.
 
 ![alt text](images/image5.png)
 
-On the following screen, we can enter more information about the new agent we are building. Agents can rely on `Knowledge`, on a `Toolset` that consists of one or more `Tools` and one or more `Agents` to satisfy a request that is sent to them, and we can define all of those elements here. 
-- `Knowledge` represents information that is stored in the form of "embeddings" in a so-called Vector Store. Whenever the agent answers a request, it can choose to run a search against the connected Knowledge repository (i.e. the Vector Store) to search for information that can assist in answering the request. You can either upload documents directly here, or connect the agent to an already existing repository. Note that once again, the "Description" field is key, because it will help the agent decide whether to run a search against the knowledge.
-- The `Toolset` contains other components that the agent can delegate certain tasks to. 
-  - `Tools` are functions an agent can call. It can be either an API call or an invocation of custom code. This allows to extend the agent's capabilitiy beyond what the LLM has been trained with.
-  - `Agents` are other agents, either within watsonx Orchestrate or running externally, e.g., in watsonx.ai that this agent can delegate the request, or part of a request, to.
+Na tela seguinte, podemos inserir mais informações sobre o novo agente que estamos construindo. Os agentes podem contar com o `Knowledge`, um `Toolset` que consiste em uma ou mais `Tools` e um ou mais `Agents` para atender a uma solicitação enviada a eles, e podemos definir todos esses elementos aqui.
+- `Knowledge` representa informações armazenadas na forma de "embeddings" em um chamado Repositório de Vetores. Sempre que o agente responde a uma solicitação, ele pode optar por executar uma pesquisa no repositório de Conhecimento conectado (ou seja, o Repositório de Vetores) para buscar informações que possam auxiliar na resposta à solicitação. Você pode carregar documentos diretamente aqui ou conectar o agente a um repositório já existente. Observe que, mais uma vez, o campo "Descrição" é fundamental, pois ajudará o agente a decidir se deve executar uma pesquisa no conhecimento.
+- O `Toolset` contém outros componentes aos quais o agente pode delegar determinadas tarefas.
+- `Tools` são funções que um agente pode chamar. Pode ser uma chamada de API ou uma invocação de código personalizado. Isso permite estender a capacidade do agente além daquela com a qual o LLM foi treinado.
+- `Agents` são outros agentes, dentro do watsonx Orchestrate ou em execução externa, por exemplo, em watsonx.ai, aos quais este agente pode delegar a solicitação, ou parte de uma solicitação.
 
-In a real production deployment, the Dock Status agent would sit in front of an existing enterprise backend system that can provide up-to-date data about trucks currently sitting at warehouse docks, and keep track of products and their quantity that are being unloaded.
-However, in this hands-on exercise, we will simulate that backend by simply hardcoding the data into the `Behavior` field of the agent. The content of this field drive the prompts that are sent to the underlying LLM, and adding the hardcoded data equates to providing examples in the prompt. So, for the purpose of simulating data stemming from an enterprise system, we can use this workaround. Note how the instructions provide detailed information about both the persona and the context this agent operates with.
 
-On the agent definition page, scroll all the way down to the `Behavior` section and copy the following text into the `Instructions` text field:
+Em uma implantação de produção real, o agente Dock Status ficaria em frente a um sistema de backend corporativo existente, capaz de fornecer dados atualizados sobre os caminhões atualmente parados nas docas do armazém e monitorar os produtos e suas quantidades descarregadas.
+No entanto, neste exercício prático, simularemos esse backend simplesmente codificando os dados no campo `Behavior` do agente. O conteúdo desse campo direciona os prompts enviados ao LLM subjacente, e adicionar os dados codificados equivale a fornecer exemplos no prompt. Portanto, para simular dados provenientes de um sistema corporativo, podemos usar esta solução alternativa. Observe como as instruções fornecem informações detalhadas sobre a persona e o contexto com o qual este agente opera.
+
+Na página de definição do agente, role até a seção `Behavior` e copie o seguinte texto no campo de texto `Instructions`:
 
 ```
 Persona:
-- Your purpose is to provide information about warehouse dock status. I will ask about the status at the docks, or one specific dock identified by dock ID, and you will answer in a detailed textual format.
+- Seu objetivo é fornecer informações sobre o status das docas do armazém. Perguntarei sobre o status das docas, ou de uma doca específica identificada pelo ID da doca, e você responderá em um formato de texto detalhado.
 
-Context:
-- Use the Dock status data below to create answers. The data below is formatted in JSON, but you will return the information as text in a bulleted list.
-- If no dock ID is specified, return data for all the docks.
-- the data is current, no timestamp is required or supported.
-- Provide as much detail as you can.
+Contexto:
+- Use os dados de status da doca abaixo para criar respostas. Os dados abaixo são formatados em JSON, mas você retornará as informações como texto em uma lista com marcadores.
+- Se nenhum ID de doca for especificado, retorne dados para todas as docas.
+- Os dados são atuais, nenhum registro de data e hora é necessário ou suportado.
+- Forneça o máximo de detalhes possível.
 
-Dock status data:
+Dados de status da doca:
+```json
 {
   "dock_id": 1,
   "trucks": [
     {
       "truck_id": "T001",
-      "status": "Unloading",
-      "ETA": "2 hours",
+      "status": "Descarregando",
+      "ETA": "2 horas",
       "details": {
         "SKU": "199464599",
         "Payload_Quantity": 250,
-        "Surplus_Status": "Received surplus"
+        "Surplus_Status": "Excedente recebido"
       }
     },
     {
       "truck_id": "T002",
-      "status": "Unloading",
-      "ETA": "1.5 hours",
+      "status": "Descarregando",
+      "ETA": "1.5 horas",
       "details": {
         "SKU": "226814212",
         "Payload_Quantity": 150,
-        "Surplus_Status": "No Surplus"
+        "Surplus_Status": "Sem excedente"
       }
     },
     {
       "truck_id": "T003",
-      "status": "Unloading",
-      "ETA": "1 hour",
+      "status": "Descarregando",
+      "ETA": "1 hora",
       "details": {
         "SKU": "404108299",
         "Payload_Quantity": 200,
-        "Surplus_Status": "No Surplus"
+        "Surplus_Status": "Sem excedente"
       }
     }
   ]
@@ -146,8 +148,8 @@ Dock status data:
   "trucks": [
     {
       "truck_id": "T004",
-      "status": "Unloading",
-      "ETA": "1.5 hours",
+      "status": "Descarregando",
+      "ETA": "1.5 horas",
       "details": {
         "SKU": "102209199",
         "Payload_Quantity": 50,
@@ -156,12 +158,12 @@ Dock status data:
     },
     {
       "truck_id": "T005",
-      "status": "Unloading",
-      "ETA": "2 hours",
+      "status": "Descarregando",
+      "ETA": "2 horas",
       "details": {
         "SKU": "148183199",
         "Payload_Quantity": 80,
-        "Surplus_Status": "No Surplus"
+        "Surplus_Status": "Sem excedente"
       }
     }
   ]
@@ -169,54 +171,55 @@ Dock status data:
 ```
 
 
-Finally, make sure you uncheck the `Show agent` checkbox, as shown in the picture below. This switch controls whether the agent is available in the main chat window. We only want to expose the top level agent (which we haven't created yet) there. 
+Por fim, certifique-se de desmarcar a caixa de seleção `Show agent`, como mostrado na imagem abaixo. Esta opção controla se o agente estará disponível na janela de bate-papo principal. Queremos expor apenas o agente de nível superior (que ainda não criamos) lá.
 
 ![alt text](images/image6.png)
 
-Let's now test the new agent. In the Preview window, enter a question for the agent, for example "Can you tell me about the status of the warehouse docks?" Note how the agent is using the provided data to formulate its answer.
+Vamos agora testar o novo agente. Na janela de visualização, insira uma pergunta para o agente, por exemplo, "Você pode me informar sobre o status das docas do armazém?". Observe como o agente está usando os dados fornecidos para formular sua resposta.
 
 ![alt text](images/image7.png)
 
-> When doing this in your own instance, you may see answers that differ from the ones shown in the screenshot above. Moreover, the agent will often ask follow-up questions before offering an answer. This is due to the undeterministic nature of the AI models involved. Feel free to experiment with different types of questions to see how the agent reacts. The same equally applies to all the agents described further down.
+> Ao fazer isso em sua própria instância, você poderá ver respostas diferentes das mostradas na captura de tela acima. Além disso, o agente frequentemente fará perguntas complementares antes de oferecer uma resposta. Isso se deve à natureza indeterminística dos modelos de IA envolvidos. Sinta-se à vontade para experimentar diferentes tipos de perguntas para ver como o agente reage. O mesmo se aplica a todos os agentes descritos abaixo.
 
-You can now go ahead and deploy the agent, using the `Deploy` button at the top right of the page.
+Agora você pode prosseguir e implantar o agente usando o botão `Deploy` no canto superior direito da página.
 
 ![alt text](images/image8.png)
 
-Now let's go back to the Agents list on the Manage agents page, by clicking on the `Manage agents` link at the top left of the page.
+Agora, vamos voltar para a lista de agentes na página Gerenciar agentes, clicando no link `Manage agents` no canto superior esquerdo da página.
 
 ![alt text](images/image9.png)
 
-Note how the Dock Status Agent now shows a small green icon saying "Live". This indicates successful deployment of the agent.
+Observe como o Dock Status Agent agora exibe um pequeno ícone verde com a inscrição "Live" (Ativo). Isso indica a implantação bem-sucedida do agente.
 
-### The Surplus Agent
+### O Agente de Excedente
 
-This agent analyzes options for the handling of surplus product, and makes recommendations for how to handle it. Surplus product can be routed to a variety of places, all of which incur different cost. Just like in the previous example, a real system would be connected to a separate application that handls this analysis, and here we are just going to simulate it. We will use the same approach as with the Dock Status Agent, namely add the hardcoded data to the Behavior field.
+Este agente analisa opções para o tratamento de produtos excedentes e faz recomendações sobre como lidar com eles. Produtos excedentes podem ser encaminhados para diversos locais, cada um com custos diferentes. Assim como no exemplo anterior, um sistema real seria conectado a uma aplicação separada que realiza essa análise, e aqui vamos apenas simulá-la. Usaremos a mesma abordagem do Agente de Status de Doca, ou seja, adicionar os dados codificados ao campo Behavior.
 
-In the Manage agents view, click on the `Create agent` button.
+Na visualização Gerenciar agentes, clique no botão `Create agent`.
 
 ![alt text](images/image10.png)
 
-Now leave the `Create from scratch` option selected, enter "Surplus Agent" as the name and enter the following into the Description field:
+Agora deixe a opção `Create from scratch` selecionada, digite "Agente Excedente" como nome e insira o seguinte no campo Descrição:
 ```
-The Surplus Agent provides recommendations about the handling of surplus data. It has access to data including the allocation strategy, product SKU and total cost for the surplus on each truck, and it returns information about the recommended handling of surplus.
+O Agente de Excedentes fornece recomendações sobre o tratamento de dados excedentes. Ele tem acesso a dados como a estratégia de alocação, o SKU do produto e o custo total do excedente em cada caminhão, e retorna informações sobre o tratamento recomendado para o excedente.
 ```
 ![alt text](images/image11.png)
 
-Then click on `Create`.
+Clique em `Create`.
 
-In the following view, scroll all the way down to the `Behavior` section, and enter the following into the `Instructions` field:
+Na visualização a seguir, role até a seção `Behavior` e insira o seguinte no campo `Instructions`:
 ```
 Persona:
-- Your purpose is to provide information about surplus. I will ask about the recommended handling of surplus on a specific truck, and you will answer in a detailed format with the allocation strategy based on the given data, along with truck id, Product SKU, total cost, surplus unit.
+- Seu objetivo é fornecer informações sobre excedentes. Perguntarei sobre o tratamento recomendado para excedentes em um caminhão específico, e você responderá detalhadamente com a estratégia de alocação com base nos dados fornecidos, juntamente com o ID do caminhão, SKU do produto, custo total e unidade excedente.
 
-Context:
-- Use the Surplus data below to create answers. The data below is formatted in JSON, but you will return the information as text in a bulleted list.
-- If no allocation strategy is specified, return data according to the default allocation strategy given in the data below.
-- If no product SKU is provided by the user, return data for all of the product SKUs within a given truck ID.
-- Provide as much detail as you can.
+Contexto:
+- Use os dados de excedentes abaixo para criar respostas. Os dados abaixo são formatados em JSON, mas você retornará as informações como texto em uma lista com marcadores.
+- Se nenhuma estratégia de alocação for especificada, retorne os dados de acordo com a estratégia de alocação padrão fornecida nos dados abaixo.
+- Se nenhum SKU de produto for fornecido pelo usuário, retorne os dados para todos os SKUs de produtos dentro de um determinado ID de caminhão.
+- Forneça o máximo de detalhes possível.
 
-Surplus data:
+Dados de excedentes:
+```json
 {
   "truck_id": "T004",
   "SKU": "102209199",
@@ -227,7 +230,7 @@ Surplus data:
       "units": 12
     },
     {
-      "destination": "Relocation",
+      "destination": "Mudança",
       "units": 3
     }
   ],
@@ -239,7 +242,7 @@ Surplus data:
   "total_surplus": 50,
   "allocation": [
     {
-      "destination": "Holding",
+      "destination": "Contenção",
       "units": 15
     },
     {
@@ -247,7 +250,7 @@ Surplus data:
       "units": 19
     },
     {
-      "destination": "Relocation",
+      "destination": "Mudança",
       "units": 12
     },
     {
@@ -259,206 +262,208 @@ Surplus data:
 }
 ```
 
-Uncheck the Show agent checkbox, just like you did for the Dock Status agent.
+Desmarque a caixa de seleção Mostrar agente, assim como você fez para o agente Status do Dock.
 
 ![alt text](images/image12.png)
 
-Before deploying this new agent, we can test its functionality by entering requests in the Preview window. For example, you can ask 
+Antes de implantar este novo agente, podemos testar sua funcionalidade inserindo solicitações na janela de visualização. Por exemplo, você pode perguntar:
 ```
-How do we handle the surplus on truck T001?
+Como lidamos com o excedente do caminhão T001?
 ```
 
 ![alt text](images/image13.png)
 
-Once you are satisfied with the result, click on the `Deploy` button to deploy this agent, and then click on the `Manage agents` link to return to the agents overview page.
+Quando estiver satisfeito com o resultado, clique no botão `Deploy` para implantar este agente e, em seguida, clique no link `Manage Agents` para retornar à página de visão geral dos agentes.
 
-You should now see two agents listed, and both should have the "Live" indicator.
+Agora você deverá ver dois agentes listados, e ambos deverão ter o indicador "Ativo".
 
 ![alt text](images/image14.png)
 
-### The Secretary Agent
+### O Agente Secretário
 
-Creating yet another agent should work like a breeze for you now! We want an agent that handles communication with stakeholder, including sending out notifications about surplus handling. The process will be exactly the same as with the previous two agents, and we will once again provide output examples in the `Instructions` field.
+Criar mais um agente deve ser muito fácil para você agora! Queremos um agente que gerencie a comunicação com as partes interessadas, incluindo o envio de notificações sobre o processamento de excedentes. O processo será exatamente o mesmo dos dois agentes anteriores, e mais uma vez forneceremos exemplos de saída no campo "Instruções".
 
-Click on Create agent and enter the following:
-- Name: Secretary Agent
+Clique em Criar agente e insira o seguinte:
+- Name: Agente Secretário
 - Description: 
 ```
-The Secretary Agent specializes in creating emails related to warehouse topics. 
+O Agente Secretário é especializado na criação de e-mails relacionados a tópicos de depósito.
 ```
 
-Then click on Create and add the following text to the `Instructions` field in the Behavior section:
+Em seguida, clique em Criar e adicione o seguinte texto ao campo `Instructions` na seção Comportamento:
 ```
 Persona:
-- Your persona is that of a secretary that drafts emails. I will ask you to create an email about a topic, and you will return a textual draft of that email.
+Sua persona é a de uma secretária que redige e-mails. Pedirei que você crie um e-mail sobre um tópico específico e você retornará um rascunho textual desse e-mail.
 
-Context:
-- Write a concise and professional draft email about the surplus in the inventory.   The email should directly begin with the subject line, followed by the email body without any introductory statements or preambles. 
-- Use your knowledge of email writing as a guide to structure and tone, but do not limit yourself to specific teams or predefined examples.  
-- Assume the audience and content are general unless specified otherwise.  
-- Avoid mentioning any knowledge limitations or referencing specific teams unless explicitly required. 
-- Below are examples of user prompts and the resulting generated email as guidance for your own generations.  
+Contexto:
+- Escreva um rascunho de e-mail conciso e profissional sobre o excedente no estoque. O e-mail deve começar diretamente com o assunto, seguido pelo corpo do e-mail, sem nenhuma declaração introdutória ou preâmbulo.
+- Use seu conhecimento em redação de e-mails como um guia para estrutura e tom, mas não se limite a equipes específicas ou exemplos predefinidos.
+- Presuma que o público e o conteúdo são gerais, a menos que especificado de outra forma.
+- Evite mencionar quaisquer limitações de conhecimento ou fazer referência a equipes específicas, a menos que seja explicitamente necessário.
+- Abaixo estão exemplos de prompts de usuário e o e-mail gerado como orientação para suas próprias gerações.
+Exemplos:
+Exemplo 1:
+Entrada:
+Gerar um e-mail de notificação para a equipe de marketing para o item 223456789 com 25 unidades
+Saída:
+Assunto: Notificação de Unidades Excedentes para o SKU nº 223456789
 
-Examples:
-Example1:
-Input: 
-Generate a notification email for the marketing team for item 223456789 for 25 units
-Output:
-Subject: Notification of Surplus Units for SKU# 223456789 
+Equipe de Marketing,
+Este e-mail é para informar que há 25 unidades excedentes do item 223456789 disponíveis. Por favor, revise e coordene quaisquer esforços de marketing necessários para essas unidades adicionais.
 
-Marketing Team,
-This email is to inform you that there are 25 surplus units of item 223456789 available. Please review and coordinate any necessary marketing efforts for these additional units.
+Gerenciamento de Armazém
 
-Warehouse Management
+Exemplo 2:
+Entrada: Gerar um e-mail de notificação para a equipe de estoque para o item 112334343 com 10 unidades
+Saída:
 
-Example2:
-Input:  Generate a notification email for the holding team for item 112334343 for  10 units
-Output:
+Assunto: Notificação de Unidades Excedentes para o SKU nº 112334343
 
-Subject: Notification of Surplus Units for SKU#112334343
+Equipe de Estoque,
+Este e-mail é para notificá-lo de que há 10 unidades do item 112334343 em estoque que precisam ser armazenadas no estoque. Por favor, tome as medidas necessárias.
 
-Holding Team,
-This email is to notify you that there are 10 units of item 112334343 in surplus which need to be stored in the inventory. Please take necessary actions.
+Gestão de Armazém
 
-Warehouse Management
+Exemplo 3:
+Entrada: Gerar um e-mail de notificação para a equipe de dropshipping para o SKU: 88245464599 de 10 unidades
+Saída:
+Assunto: Notificação de Unidades Excedentes para o SKU nº 88245464599
 
-Example3:
-Input:  Generate a notification email for the dropship team for SKU: 88245464599 of 10 units
-Output:
-Subject: Notification of Surplus Units for SKU#88245464599
+Equipe de Dropshipping,
+Este e-mail é para notificá-los de que há 10 unidades do item 88245464599 em excesso. Revise e ajuste os cronogramas de envio conforme necessário para acomodar essas unidades adicionais.
 
-Dropship Team,
-This email is to notify you that there are 10 units of item 88245464599 in surplus. Please review and adjust shipping schedules as needed to accommodate these additional units.
+Gestão de Armazém
 
-Warehouse Management
+Exemplo 4:
+Entrada: Gerar um e-mail de notificação para a equipe de realocação para o SKU: 765004599 de 9 unidades
+Saída:
+Assunto: Notificação de Unidades Excedentes para o SKU nº 765004599
 
+Equipe de Realocação,
+Este e-mail é para notificá-los de que há 9 unidades do item 765004599 em excesso. Por favor, revise e coordene quaisquer esforços de realocação necessários para essas unidades adicionais.
 
-Example 4:
-Input:   Generate a notification email for the relocation team for SKU: 765004599 of 9 units
-Output: 
-Subject: Notification of Surplus Units for SKU#765004599
-
-Relocation Team,
-This email is to notify you that there are 9 units of item 765004599 in surplus. Please review and coordinate any necessary relocation efforts for these additional units.
-
-Warehouse Management
+Gerenciamento de Armazém
 ```
 
-Uncheck `Show agent`. Then test the new agent with the Preview, for example, enter "Generate a notification email for the marketing team for SKU: 8932464599 of 10 units". The result should look like in the picture below.
+Desmarque a opção `Show agent`. Em seguida, teste o novo agente com a Visualização, por exemplo, insira "Gerar um e-mail de notificação para a equipe de marketing para o SKU: 8932464599 de 10 unidades". O resultado deve ser semelhante ao da imagem abaixo.
 
 ![alt text](images/image15.png)
 
-Make sure you click the `Deploy` button again and return to the agent overview window by clicking the `Manage agents` link at the top left of the window.
+Certifique-se de clicar no botão `Deploy` novamente e retornar à janela de visão geral do agente clicando no link `Manage agents` no canto superior esquerdo da janela.
 
-### The Traffic Agent
+### O Agente de Trânsito
 
-Almost there! For this agent, we need to retrieve up-to-date traffic information about a given location. And for this, we will delegate the work to an agent that was developed using Python code and the LangGraph framework, deployed in watsonx.ai. The creation of this agent is not subject of this lab, but will be covered in a separate lab in the future. 
-Here, you will be given the details for the agent by your instructor, who has pre-deployed the agent for you. So there is nothing else to do here for now.
+Quase lá! Para este agente, precisamos recuperar informações de tráfego atualizadas sobre um determinado local. Para isso, delegaremos o trabalho a um agente desenvolvido usando código Python e o framework LangGraph, implantado em watsonx.ai. A criação deste agente não é assunto deste laboratório, mas será abordada em um laboratório separado no futuro.
+Aqui, você receberá os detalhes do agente do seu instrutor, que o pré-implantou para você. Portanto, não há mais nada a fazer por enquanto.
 
-### The Warehouse Manager Agent
+### O Agente Gerente de Armazém
 
-We are finally ready to create the agent that acts as the orchestrator for all other agents and is the agent the end user interacts with. 
+Finalmente estamos prontos para criar o agente que atua como orquestrador de todos os outros agentes e é o agente com o qual o usuário final interage.
 
-Click on `Create agent` once more. 
+Clique em `Create agent` mais uma vez.
 
 ![alt text](images/image16.png)
 
-Like the other agents you created already, this one will be created from scratch. The name is "Warehouse Manager Agent". The description differs from the previous agents, indicating that this one is an 'orchestrating', or 'supervising', or 'routing' agent: 
+Assim como os outros agentes que você já criou, este será criado do zero. O nome é "Agente Gerente de Armazém". A descrição difere dos agentes anteriores, indicando que este é um agente "orquestrador", "supervisor" ou "roteador":
 ```
-The Warehouse Manager Agent is in charge of routing user requests to the most relevant agent working under it.
+O Agente Gerente de Armazém é responsável por encaminhar as solicitações dos usuários para o agente mais relevante que trabalha sob sua responsabilidade.  Ele é cortês e sempre responde no idioma portugues do Brasil.
 ``` 
 
-After you have entered the information, click on `Create`.
+Após inserir as informações, clique em `Create`.
 
 ![alt text](images/image17.png)
 
-We had mentioned above that an agent can collaborate with other agents to fulfill a certain task. You enter those collaborator agents in the `Agents` section under `Toolset` in the agent definition window.
+Mencionamos acima que um agente pode colaborar com outros agentes para realizar uma tarefa específica. Você insere esses agentes colaboradores na seção `Agents`, em `Toolset`, na janela de definição do agente.
 
 ![alt text](images/image18.png)
 
-Click on the `Add agent` button. Since we want to add the agents you created above as collaborators to this agent, select the `Add from local instance` option.
+Clique no botão `Add agent`. Como queremos adicionar os agentes que você criou acima como colaboradores a este agente, selecione a opção `Add from local instance`.
 
 ![alt text](images/image19.png)
 
-Here you see all three agents listed that you have created. We want all of them to be used by the Warehouse Manager Agent, so check everyone of them and click on `Add to agent`. Note that it is possible that you will see more than the three agents covered in this lab (you may have created agents from a different lab, or created some of your own), so make sure you are selecting the right set of three.
+Aqui você vê todos os três agentes listados que você criou. Queremos que todos eles sejam usados ​​pelo Agente do Gerente de Armazém, então marque cada um deles e clique em `Add to agent`. Observe que é possível que você veja mais do que os três agentes abordados neste laboratório (você pode ter criado agentes de um laboratório diferente ou criado alguns dos seus próprios), portanto, certifique-se de selecionar o conjunto correto de três.
 
 ![alt text](images/image20.png)
 
-But we are not done yet. Click on `Add agent` again. This time, select the `Import` option. This will allow us to import the agent from watsonx.ai.
+
+Mas ainda não terminamos. Clique em `Add agent` novamente. Desta vez, selecione a opção "Import". Isso nos permitirá importar o agente de watsonx.ai.
 
 ![alt text](images/image21.png)
 
 On the next screen, select the `External agent` option and click on `Next`.
+Na próxima tela, selecione a opção `External agent` e clique em `Next`.
 
 ![alt text](images/image22.png)
 
 On the following screen, enter details about the imported agent:
 - Agent details
   - Provider: `watsonx.ai`
-  - Authentication type: leave as `API key`
-  - API key: enter the key provided to you by your instructor
-  - Service instance URL: enter the value provided to you by your instructor
-- Define new agent
-  - Display name: `TrafficAgent` (the name cannot contain a space)
-  - Description of agent capabilities: `The TrafficAgent agent provides information about traffic in any given location.`
+  - Authentication type: deixe `API key`
+  - API key: digite a chave fornecida a você pelo seu instrutor
+  - URL da instância do serviço: insira o valor fornecido pelo seu instrutor
+- Definir novo agente
+- Nome de exibição:`AgenteDeTrafego` (o nome não pode conter espaço)
+  - Descrição: `O agente TrafficAgent fornece informações sobre o tráfego em qualquer local.`
 
 ![alt text](images/image23.png)
 
-Now click on `Import agent`. You should now see all four agents listed in the Toolset section of the Warehouse Manager Agent.
+Agora clique em `Import agent`. Você deverá ver todos os quatro agentes listados na seção Conjunto de ferramentas do Agente do Warehouse Manager.
+
 
 ![alt text](images/image24.png)
 
-Finally, we give this agent instructions about how to use the collaborator agents we defined earlier. Enter the folllowing text in the `Instructions` field under Behavior.
+Por fim, damos a este agente instruções sobre como usar os agentes colaboradores que definimos anteriormente. Insira o seguinte texto no campo `Instructions`, em Behavior.
 ```
-Reasoning:
-- Use the Dock Status Agent for tasks related to dock status.
-- Use the Surplus Agent for tasks related to surplus.
-- Use the Secretary Agent for drafting of emails.
-- Use the TrafficAgent to find traffic information about a location.
+Justificativa:
+- Utilize o Agente de Status de doca para tarefas relacionadas ao status da doca.
+- Utilize o Agente Excedente para tarefas relacionadas ao excedente.
+- Utilize o Agente Secretário para redigir e-mails.
+- Utilize o AgenteDeTrafego para encontrar informações de trânsito sobre um local.
 ```
 
-Before we test this agent, scroll all the to the bottom and make sure the `Show agent` checkbox is actually checked! This is the agent we want to use in the main chat window and make it available to end users.
+Antes de testar este agente, role a tela até o final e verifique se a caixa de seleção `Show agent` está realmente marcada! Este é o agente que queremos usar na janela de bate-papo principal e disponibilizá-lo aos usuários finais.
 
 ![alt text](images/image25.png)
 
-Let's test it. Since we haven't touched it before, let's start with the externale TrafficAgent agent. We can trigger it by asking about traffic in a given location, say, Sydney Australia. Enter the following into the Preview text input: "Please tell me about traffic around central Sydney, Australia." (You can obviously pick any other location, too.)
+Vamos testar. Como ainda não o abordamos, vamos começar com o agente externo TrafficAgent. Podemos acioná-lo perguntando sobre o trânsito em um determinado local, digamos, Sydney, Austrália. Digite o seguinte na entrada de texto de visualização: "Informe-me sobre o trânsito no centro de Sydney, Austrália." (Você também pode escolher qualquer outro local, é claro.)
 
 ![alt text](images/image26.png)
 
-Note that the agent was "reasoning", in other words, determining how to answer this request. It decided that routing the request to the TrafficAgent was the best option. You can expand the `Show reasoning` section in the Preview and see which steps the agent took. It should list one step, which you can expand as well.
+Observe que o agente estava "raciocinando", ou seja, determinando como responder a essa solicitação. Ele decidiu que encaminhar a solicitação para o TrafficAgent era a melhor opção. Você pode expandir a seção `Show reasoning` na Visualização e ver quais etapas o agente realizou. Ela deve listar uma etapa, que você também pode expandir.
 
 ![alt text](images/image27.png)
 
-Note how it selected the Traffic agent to answer the request, which was obviously the right choice in this case.
+Observe como ele selecionou o agente de Tráfego para responder à solicitação, o que obviamente foi a escolha certa neste caso.
 
-You can now test the routing to the other agents, possibly using the same or similar prompts as what you used earlier to test them individually:
-- "What is the status of the warehouse docks?"
-- "How do we handle surplus on truck T001?"
-- "Please create a notification email ..."
+Agora você pode testar o roteamento para os outros agentes, possivelmente usando os mesmos prompts ou prompts semelhantes aos que você usou anteriormente para testá-los individualmente:
+- "Qual é o status das docas do armazém?"
+- "Como lidamos com o excedente do caminhão T001?"
+- "Crie um e-mail de notificação..."
   
 ![alt text](images/image28.png)
 
 Once you are satisfied with the answer, deploy this agent using the `Deploy` button as with the other agents before. Since we left the `Show agent` option checked, we can now go back to the home screen to see it there. Simply click on `watsonx Orchestrate` at the very top of the window.
+Quando estiver satisfeito com a resposta, implante este agente usando o botão `Deploy`, como fez com os outros agentes anteriores. Como deixamos a opção `Show agent`  marcada, agora podemos retornar à tela inicial para vê-lo. Basta clicar em `watsonx Orchestrate` no topo da janela.
 
 ![alt text](images/image29.png)
 
-Now you can enter your questions and requests in the main chat window. Note how the Warehouse Manager agent is already preselected under the Agents list on the left (it is the only agent appearing in that list anyway). You can use the same questions you asked when testing the individual agents above.
+Agora você pode inserir suas perguntas e solicitações na janela principal de bate-papo. Observe que o agente Gerente de Armazém já está pré-selecionado na lista de Agentes à esquerda (de qualquer forma, é o único agente que aparece nessa lista). Você pode usar as mesmas perguntas que fez ao testar os agentes individuais acima.
  
 ![alt text](images/image30.png)
 
-We encourage you to explore the behavior of the solution further, by asking more "loaded" questions, which involve more than one agent to answer. For example, you could ask "Please tell me about the status of the warehouse docks and let me know what to do with surplus if there is any." Note how you may get asked follow-up clarification questions by the agent, to retrieve more specific information, for example, which exact truck ID you are asking about.
-What this is trying to show is how you can send fairly detailed questions and instructions to an agent, but you can also give it more autonomy in how to address a request, by involving multiple agents and tools.
+Incentivamos você a explorar mais o comportamento da solução, fazendo perguntas mais "carregadas", que envolvam mais de um agente para responder. Por exemplo, você pode perguntar "Por favor, me informe sobre o status das docas do armazém e me diga o que fazer com o excedente, se houver". Observe como o agente pode lhe fazer perguntas de esclarecimento subsequentes para obter informações mais específicas, por exemplo, sobre qual ID exata do caminhão você está perguntando.
+O que isso tenta mostrar é como você pode enviar perguntas e instruções bastante detalhadas a um agente, mas também pode dar a ele mais autonomia para atender a uma solicitação, envolvendo vários agentes e ferramentas.
 
 ![alt text](images/image32.png)
 
-Congratulations! You have create a complete agentic AI solution, without writing a single line of code! 
+Parabéns! Você criou uma solução completa de IA agêntica, sem escrever uma única linha de código!
 
-## Summary
+## Resumo
 
-In this lab, we went through the use case of an operational manager at a warehouse, which uses an agentic solution to handle arriving and possibly surplus products. We started by creating a number of agent for tasks like dock status retrieval or surplus analysis. For one aspect, we imported an external agent running in watsonx.ai. Finally, all of it came together in the orchestrating agent that serves as the main frontend.
+Neste laboratório, analisamos o caso de uso de um gerente operacional em um armazém, que utiliza uma solução agêntica para lidar com produtos que chegam e possivelmente excedentes. Começamos criando vários agentes para tarefas como recuperação do status da doca ou análise de excedentes. Para começar, importamos um agente externo em execução em watsonx.ai. Por fim, tudo isso foi reunido no agente de orquestração que serve como frontend principal.
 
-After we had all configured to be used by the AI Agent chat, we can interact with the solution through the main chat interface, and the system will execute and delegate to the appropriate agent.
+Depois de configurarmos tudo para ser usado pelo chat do Agente de IA, podemos interagir com a solução por meio da interface principal do chat, e o sistema executará e delegará ao agente apropriado.
 
-Note that the intention of this exercise is to provide you with a starting point. Some parts of this solution are simulated, and would have to be fully implemented for a real solution. Moreover, a true agentic solution would add a reasoning layer on top of what you have built here, which allows coming up with a plan for handling, in this case, warehouse situation autonomously, making its own decisions along the way. We believe that those solutions are yet to become real.
+Observe que a intenção deste exercício é fornecer um ponto de partida. Algumas partes desta solução são simuladas e precisariam ser totalmente implementadas para uma solução real. Além disso, uma solução verdadeiramente agêntica adicionaria uma camada de raciocínio sobre o que você construiu aqui, o que permite elaborar um plano para lidar, neste caso, com a situação do armazém de forma autônoma, tomando suas próprias decisões ao longo do caminho. Acreditamos que essas soluções ainda não se tornaram realidade.
 
-But hopefully it triggered some ideas for you about how to leverage AI agents in your business environment.
+Mas espero que isso tenha lhe gerado algumas ideias sobre como aproveitar agentes de IA no seu ambiente de negócios.
