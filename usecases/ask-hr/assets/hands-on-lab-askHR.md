@@ -108,6 +108,8 @@ Quando o usuário solicitar folga, converta as datas para o formato AAAA-MM-DD. 
 
 13. Teste seu agente no chat de pré-visualização à direita, fazendo as seguintes perguntas e validando as respostas. Elas devem ser semelhantes às mostradas nas capturas de tela abaixo:
 
+> IMPORTANTE: Quando o agente perguntar seu nome você deve utilizar qualquer um disponível em [Planilha de usuários](../../../anexos/rh/users_data.xlsx).
+
 ```
 1. Qual é a política para animais de estimação?
 
