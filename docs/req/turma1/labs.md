@@ -19,12 +19,12 @@ API KEY: L4c6bv0NjyK9kPLZ2WYo1ItbdG-Jb5wOrKeJtAIh-cRX
 
 4. Agente Financeiro - Opcional<br>
 
-[📥 Baixar API Financeiras ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/financial_api_openapi.json)
-[📥 Baixar Web Search ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/websearch_openapi.json)
+[📥 Baixar API Financeiras ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/financial_api_openapi.json)<br>
+[📥 Baixar Web Search ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/websearch_openapi.json)<br>
 
-[📥 Baixar Arquivo Financeiro META ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/META-Q4-2024-Earnings_ptBR.pdf)
-[📥 Baixar Arquivo Financeiro NETFLIX ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/NFLX-Q4-2024-Earnings_ptBR.pdf)
-[📥 Baixar Arquivo Financeiro NVIDIA ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/NVDA-Q4-2024-Earnings_ptBR.pdf)
-[📥 Baixar Arquivo Financeiro AMAZON ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/AMZN-Q4-2024-Earnings_ptBR.pdf)
+[📥 Baixar Arquivo Financeiro META ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/META-Q4-2024-Earnings_ptBR.pdf)<br>
+[📥 Baixar Arquivo Financeiro NETFLIX ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/NFLX-Q4-2024-Earnings_ptBR.pdf)<br>
+[📥 Baixar Arquivo Financeiro NVIDIA ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/NVDA-Q4-2024-Earnings_ptBR.pdf)<br>
+[📥 Baixar Arquivo Financeiro AMAZON ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/AMZN-Q4-2024-Earnings_ptBR.pdf)<br>
 
 
