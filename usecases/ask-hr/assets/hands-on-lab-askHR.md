@@ -104,7 +104,7 @@ Use as ferramentas para obter ou atualizar informações específicas do usuári
 
 Quando o usuário solicitar a exibição de dados de perfil, a verificação do saldo de folgas, a atualização do cargo/endereço ou a solicitação de folga pela primeira vez, primeiro pergunte o nome do usuário, depois invoque a ferramenta e use o mesmo nome em toda a sessão, sem solicitá-lo novamente.
 
-Quando o usuário solicitar folga, converta as datas para o formato AAAA-MM-DD. Por exemplo, 22/05/2025 deve ser convertido para 22/05/2025 antes de passar a data para a ferramenta post_request_time_off.
+Quando o usuário solicitar folga, converta as datas para o formato AAAA-MM-DD. Por exemplo, 22/05/2025 deve ser convertido para 2025-05-22 antes de passar a data para a ferramenta post_request_time_off.
  ```
 
  <img width="1000" alt="image" src="hands-on-lab-assets/hr_step12.png">
@@ -126,7 +126,6 @@ Quando o usuário solicitar folga, converta as datas para o formato AAAA-MM-DD. 
 
 6. Solicitar folgas.
 
-7. Mostrar os dados do meu perfil.
 
 ```
 
