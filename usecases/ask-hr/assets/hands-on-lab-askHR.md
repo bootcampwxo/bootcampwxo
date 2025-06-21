@@ -10,7 +10,8 @@
   - [Implantando agente de RH](#deploying-hr-agent)
 
 
-[▶️ Se preferir, baixe e siga o PDF](../../../anexos/rh/AgenticAI-AskHR-LabGuide.pdf)
+
+[![Botão PDF](https://img.shields.io/badge/Clique%20aqui%20para%20abrir%20em%20PDF-red?style=for-the-badge&logo=adobeacrobatreader&logoColor=white)](../../../anexos/rh/AgenticAI-AskHR-LabGuide.pdf)
     
 ## Descrição do caso de uso
 Este caso de uso visa desenvolver e implementar um agente AskHR utilizando o IBM Watsonx Orchestrate, conforme ilustrado no diagrama de arquitetura fornecido. Este agente capacitará os funcionários a interagir com os sistemas de RH e acessar informações de forma eficiente por meio de IA conversacional.
