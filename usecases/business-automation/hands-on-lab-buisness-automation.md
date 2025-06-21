@@ -15,6 +15,7 @@
   - [Agente de Produto](#Agente-de-Produto)
 - [Experimente agentes em ação](#Experimente-agentes-em-ação)
 
+[▶️ Se preferir, baixe e siga o PDF](../../anexos/businessautomation/AgenticAI-BusinessAutomation-LabGuide.pdf)
 
 ## 🏛 Arquitetura  
 
