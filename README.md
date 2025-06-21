@@ -31,4 +31,6 @@ Então, aproveite o conteúdo, explore bastante e, sempre que possível, experim
 [4. Agente Financeiro - Opcional](usecases/banking-financial-research-analyst/README.md)<br>
 
 
+⚠️ Este repositório é público apenas para fins de visualização.
+A clonagem, redistribuição ou modificação não autorizada deste código é expressamente proibida.
 
