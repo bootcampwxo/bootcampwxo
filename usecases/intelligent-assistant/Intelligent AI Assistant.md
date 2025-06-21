@@ -6,7 +6,7 @@
   - [Índice](#table-of-contents)
   - [Introdução](#Introdução)
     - [Pré-requisitos](#Pré-requisitos)
-  - [watsonx Orchestrate](#watsonx Orchestrate)
+  - [Watsonx Orchestrate](#watsonx-Orchestrate)
     - [O console Watsonx Orchestrate](#O-console-do-watsonx-Orchestrate)
     - [Configuração do Agente AI](#Configuração-do-Agente-de-IA)
     - [O agente de status do Dock](#O-Agente-de-Status-da-Doca)
