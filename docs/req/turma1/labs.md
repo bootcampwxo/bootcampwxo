@@ -10,7 +10,9 @@
 
 3. AskRH<br>
 
-[![📥 Baixar YAML](https://img.shields.io/badge/📥_Baixar_hrgrupo1.yaml-blue?style=for-the-badge&logo=github)](https://raw.githubusercontent.com/bootcampwxo/bootcampwxo/main/anexos/rh/hrgrupo1.yaml)
+
+[📥 Baixar YAML ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/hrgrupo1.yaml)
+
 
 
 
