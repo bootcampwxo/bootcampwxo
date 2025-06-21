@@ -17,6 +17,9 @@
 
 [▶️ Se preferir, baixe e siga o PDF](../../anexos/businessautomation/AgenticAI-BusinessAutomation-LabGuide.pdf)
 
+[![Se preferir, baixe e siga o PDF](https://img.icons8.com/color/20/000000/pdf.png)](../../anexos/businessautomation/AgenticAI-BusinessAutomation-LabGuide.pdf)
+
+
 ## 🏛 Arquitetura  
 
 <img width="900" alt="image" src="assets/Business_Automation_Architecture.png">
