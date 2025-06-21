@@ -32,7 +32,7 @@ Embora estejamos apresentando um exemplo completo e funcional, você também dev
 ### Pré-requisitos
 
 - Verifique com seu instrutor para ter certeza de que **todos os sistemas** estejam funcionando antes de continuar.
-- Se você for um instrutor responsável por este laboratório, consulte os **Guias do instrutor** para configurar todos os ambientes e sistemas.
+- Se você for um instrutor responsável por este laboratório, consulte os **Guias do instrutor** para configurar todos os ambientes e sistemas.  
 
 ## watsonx Orchestrate
 

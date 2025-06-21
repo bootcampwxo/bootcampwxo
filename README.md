@@ -24,6 +24,19 @@ O objetivo é simples: te deixar à vontade com o Watson Orchestrate, entendendo
 
 Então, aproveite o conteúdo, explore bastante e, sempre que possível, experimente por conta própria. Bora começar?
 
+<p>
+  <a href="docs/req/turma1/labs.md" target="_blank">
+    <img src="https://img.shields.io/badge/👩‍🎓👨‍🎓 Grupo%201-blue?style=for-the-badge" alt="Grupo 1">
+  </a>
+  <a href="docs/req/turma2/labs.md" target="_blank">
+    <img src="https://img.shields.io/badge/👩‍🎓👨‍🎓 Grupo%202-green?style=for-the-badge" alt="Grupo 2">
+  </a>
+  <a href="docs/req/turma3/labs.md" target="_blank">
+    <img src="https://img.shields.io/badge/👩‍🎓👨‍🎓 Grupo%203-orange?style=for-the-badge" alt="Grupo 3">
+  </a>
+</p>
+
+
 
 [1. Assistente Inteligente](usecases/intelligent-assistant/README.md)<br>
 [2. Automação de Negócio](usecases/business-automation/README.md)<br>
