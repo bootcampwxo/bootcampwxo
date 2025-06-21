@@ -18,6 +18,11 @@
 
 [![PDF](https://img.icons8.com/color/20/000000/pdf.png) Se preferir, baixe e siga o PDF](../../anexos/businessautomation/AgenticAI-BusinessAutomation-LabGuide.pdf)
 
+[![PDF](https://img.icons8.com/color/20/000000/pdf.png) 🔴📎 Se preferir, baixe e siga o PDF](../../anexos/businessautomation/AgenticAI-BusinessAutomation-LabGuide.pdf)
+
+
+[![Botão PDF](https://img.shields.io/badge/Abrir%20Guia%20PDF-red?style=for-the-badge&logo=adobeacrobatreader)](../../anexos/businessautomation/AgenticAI-BusinessAutomation-LabGuide.pdf)
+
 
 
 ## 🏛 Arquitetura  
