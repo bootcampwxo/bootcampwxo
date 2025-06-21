@@ -4,17 +4,17 @@
 
 - [Caso de uso: Assistente de IA inteligente](#use-case-intelligent-ai-assistant)
   - [Índice](#table-of-contents)
-  - [Introdução](#introduction)
-    - [Pré-requisitos](#pre-requisites)
-  - [watsonx Orchestrate](#watsonx-orchestrate)
-    - [O console Watsonx Orchestrate](#the-watsonx-orchestrate-console)
-    - [Configuração do Agente AI](#ai-agent-configuration)
-    - [O agente de status do Dock](#the-dock-status-agent)
-    - [O Agente Excedente](#the-surplus-agent)
-    - [O agente secretário](#the-secretary-agent)
-    - [O Agente de Trânsito](#the-traffic-agent)
-    - [O Agente Gerente de Armazém](#the-warehouse-manager-agent)
-  - [Resumo](#summary)
+  - [Introdução](#Introdução)
+    - [Pré-requisitos](#Pré-requisitos)
+  - [watsonx Orchestrate](#watsonx Orchestrate)
+    - [O console Watsonx Orchestrate](#O-console-do-watsonx-Orchestrate)
+    - [Configuração do Agente AI](#Configuração-do-Agente-de-IA)
+    - [O agente de status do Dock](#O-Agente-de-Status-da-Doca)
+    - [O Agente Excedente](#O-Agente-de-Excedente)
+    - [O agente secretário](#O-Agente-Secretário)
+    - [O Agente de Trânsito](#O-Agente-de-Trânsito)
+    - [O Agente Gerente de Armazém](#O-Agente-Gerente-de-Armazém)
+  - [Resumo](#Resumo)
 
 ## Introdução
 Este caso de uso descreve um cenário onde um usuário utiliza um agente de IA via chat/interação em linguagem natural para auxiliar na execução de tarefas que exigem a seleção do agente adequado para cada solicitação.

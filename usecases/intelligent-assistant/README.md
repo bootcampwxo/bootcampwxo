@@ -22,4 +22,4 @@ Você pode encontrar instruções passo a passo [neste documento](./Intelligent%
 ## Vídeo de Demonstração
 Um vídeo de demonstração da solução está aqui:
 
-
+[▶️ Assistir à demonstração do Ask HR](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/Intelligent%20Assistant%20Demo.mp4)
