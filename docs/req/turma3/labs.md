@@ -3,7 +3,7 @@
 1. Assistente Inteligente<br>
 
 Service Instance URL: https://us-south.ml.cloud.ibm.com/ml/v4/deployments/b6ad495b-49de-4075-879c-ee14b3d83715/ai_service_stream?version=2021-05-01<br>
-API KEY: L4c6bv0NjyK9kPLZ2WYo1ItbdG-Jb5wOrKeJtAIh-cRX<br>
+API KEY: 
 
 2. Automação de Negócio<br>
 
@@ -13,7 +13,7 @@ Utilizar as instruções de implementação<br>
 3. AskRH<br>
 
 [📥 Baixar rh.yaml ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/hrgrupo1.yaml)<br>
-API KEY: L4c6bv0NjyK9kPLZ2WYo1ItbdG-Jb5wOrKeJtAIh-cRX<br>
+API KEY:
 
 
 
