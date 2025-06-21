@@ -2,18 +2,29 @@
 
 1. Assistente Inteligente<br>
 
-
+Service Instance URL: https://us-south.ml.cloud.ibm.com/ml/v4/deployments/b6ad495b-49de-4075-879c-ee14b3d83715/ai_service_stream?version=2021-05-01
+API KEY: L4c6bv0NjyK9kPLZ2WYo1ItbdG-Jb5wOrKeJtAIh-cRX
 
 2. Automação de Negócio<br>
 
+Utilizar as instruções de implementação
 
 
 3. AskRH<br>
 
-
-[📥 Baixar YAML ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/hrgrupo1.yaml)
-
+[📥 Baixar rh.yaml ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/hrgrupo1.yaml)
+API KEY: L4c6bv0NjyK9kPLZ2WYo1ItbdG-Jb5wOrKeJtAIh-cRX
 
 
 
 4. Agente Financeiro - Opcional<br>
+
+[📥 Baixar API Financeiras ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/financial_api_openapi.json)
+[📥 Baixar Web Search ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/websearch_openapi.json)
+
+[📥 Baixar Arquivo Financeiro META ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/META-Q4-2024-Earnings_ptBR.pdf)
+[📥 Baixar Arquivo Financeiro NETFLIX ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/NFLX-Q4-2024-Earnings_ptBR.pdf)
+[📥 Baixar Arquivo Financeiro NVIDIA ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/NVDA-Q4-2024-Earnings_ptBR.pdf)
+[📥 Baixar Arquivo Financeiro AMAZON ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/AMZN-Q4-2024-Earnings_ptBR.pdf)
+
+
