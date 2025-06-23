@@ -16,6 +16,9 @@
     - [O Agente Gerente de Armazém](#O-Agente-Gerente-de-Armazém)
   - [Resumo](#Resumo)
 
+
+[![Botão PDF](https://img.shields.io/badge/Clique%20aqui%20para%20abrir%20em%20PDF-red?style=for-the-badge&logo=adobeacrobatreader&logoColor=white)](../../anexos/intelligent-assistant/AgenticAI-IntelligentAssistant-LabGuide.pdf)
+
 ## Introdução
 Este caso de uso descreve um cenário onde um usuário utiliza um agente de IA via chat/interação em linguagem natural para auxiliar na execução de tarefas que exigem a seleção do agente adequado para cada solicitação.
 Agentes podem ser configurados no sistema para atender a necessidades específicas da organização.
