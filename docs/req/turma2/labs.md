@@ -12,7 +12,7 @@ Utilizar as instruções de implementação<br>
 
 3. AskRH<br>
 
-[📥 Baixar rh.yaml ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/hrgruponew.yaml)<br>
+[📥 Baixar rh.yaml ](https://bucket-wxo.s3.us-south.cloud-object-storage.appdomain.cloud/hr.yaml)<br>
 API KEY:K4zE58tQJpGEZu6cmc-shUp5hPQytXpEW0NK1UM5NEcX
 
 
